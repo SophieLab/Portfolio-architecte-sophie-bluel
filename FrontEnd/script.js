@@ -23,7 +23,7 @@ fetch('http://localhost:5678/api/works', {
         figure.appendChild(image);
         
         let figcaption = document.createElement('figcaption');
-        figcaption.textContent = works[index].title;
+        figcaption.textContent = works[index].title; // Ajoute le texte de "title" à figcaption
         figure.appendChild(figcaption);
     }
     console.log('La liste des travaux: ', works);
