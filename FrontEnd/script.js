@@ -1,60 +1,84 @@
 const imagesContainer = document.querySelector('.gallery');
-const filtersContainer = document.querySelector('#filters');
+const filtersContainer = document.querySelector('.filters');
 
-fetch('http://localhost:5678/api/works', {
-    headers: {
-        Accept: 'application/json'
+// Fonction pour afficher les travaux
+function fetchAndDisplayWorks(category = '') {
+    let url = 'http://localhost:5678/api/works';
+    if (category) {
+        url += `?category=${category}`; 
     }
-})
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error('Erreur serveur');
-    }
-})
-.then(works => {
-    displayWorks(works); 
 
-    // Récupérer les catégories pour les filtres
-    const categories = new Set(works.map(work => work.category));
-    categories.forEach(category => {
-        const filterButton = document.createElement('button');
-        filterButton.textContent = category;
-        filterButton.addEventListener('click', () => filterWorks(category, works));
-        filtersContainer.appendChild(filterButton);
+    fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur serveur');
+            return response.json();
+        })
+        .then(works => {
+            displayWorks(works);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des œuvres :', error);
+        });
+}
+
+// Fonction pour afficher les œuvres dans la galerie
+function displayWorks(works) {
+    imagesContainer.innerHTML = ''; // Effacer les œuvres précédentes
+    works.forEach(work => {
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = work.imageUrl;
+        img.alt = work.title;
+        const figcaption = document.createElement('figcaption');
+        figcaption.textContent = work.title;
+
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        imagesContainer.appendChild(figure);
     });
+}
 
+// Fonction pour initialiser les filtres
+function initializeFilters() {
+    fetch('http://localhost:5678/api/categories', {
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(categories => {
+            createFilterButtons(categories);
+        })
+        .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
+}
+
+// Fonction pour créer les boutons de filtres
+function createFilterButtons(categories) {
     // Bouton pour afficher tous les travaux
     const allWorksButton = document.createElement('button');
     allWorksButton.textContent = 'Tous';
-    allWorksButton.addEventListener('click', () => displayWorks(works));
+    allWorksButton.className = 'button';
+    allWorksButton.addEventListener('click', () => {
+        fetchAndDisplayWorks();
+    });
     filtersContainer.appendChild(allWorksButton);
-})
-.catch(e => {
-    console.error('Une erreur est survenue', e);
-});
 
-// Afficher les travaux
-function displayWorks(works) {
-    imagesContainer.innerHTML = '';
-    works.forEach(work => {
-        let figure = document.createElement('figure');
-        imagesContainer.appendChild(figure);
-
-        let image = document.createElement('img');
-        image.src = work.imageUrl;
-        image.alt = work.alt;
-        figure.appendChild(image);
-
-        let figcaption = document.createElement('figcaption');
-        figcaption.textContent = work.title;
-        figure.appendChild(figcaption);
+    // Boutons pour chaque catégorie
+    categories.forEach(category => {
+        const filterButton = document.createElement('button');
+        filterButton.textContent = category.name; 
+        filterButton.className = 'button';
+        filterButton.addEventListener('click', () => {
+            fetchAndDisplayWorks(category.name);
+        });
+        filtersContainer.appendChild(filterButton);
     });
 }
 
-// Filtrer les travaux
-function filterWorks(category, works) {
-    const filteredWorks = works.filter(work => work.category === category);
-    displayWorks(filteredWorks);
-}
+// Appel initial pour charger et afficher les travaux et initialiser les filtres
+fetchAndDisplayWorks();
+initializeFilters();
