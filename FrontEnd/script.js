@@ -1,33 +1,30 @@
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndDisplayWorks();
+    initializeFilters();
+});
+
 const imagesContainer = document.querySelector('.gallery');
 const filtersContainer = document.querySelector('.filters');
 
 // Fonction pour afficher les travaux
 function fetchAndDisplayWorks(category = '') {
     let url = 'http://localhost:5678/api/works';
-    if (category) {
-        url += `?category=${category}`; 
+    if (category && category !== 'Tous') {
+        // Appliquer le filtre de catégorie
+        url += `?category=${encodeURIComponent(category)}`;
     }
 
-    fetch(url, {
-        headers: {
-            'Accept': 'application/json',
-        },
+    fetch(url)
+    .then(response => response.json())
+    .then(works => {
+        displayWorks(works);
     })
-        .then(response => {
-            if (!response.ok) throw new Error('Erreur serveur');
-            return response.json();
-        })
-        .then(works => {
-            displayWorks(works);
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des œuvres :', error);
-        });
+    .catch(error => console.error('Erreur lors de la récupération des travaux:', error));
 }
 
-// Fonction pour afficher les œuvres dans la galerie
+// Fonction pour afficher les travaux dans la galerie
 function displayWorks(works) {
-    imagesContainer.innerHTML = ''; // Effacer les œuvres précédentes
+    imagesContainer.innerHTML = '';
     works.forEach(work => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
@@ -44,41 +41,21 @@ function displayWorks(works) {
 
 // Fonction pour initialiser les filtres
 function initializeFilters() {
-    fetch('http://localhost:5678/api/categories', {
-        headers: {
-            'Accept': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(categories => {
-            createFilterButtons(categories);
-        })
-        .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
-}
-
-// Fonction pour créer les boutons de filtres
-function createFilterButtons(categories) {
-    // Bouton pour afficher tous les travaux
-    const allWorksButton = document.createElement('button');
-    allWorksButton.textContent = 'Tous';
-    allWorksButton.className = 'button';
-    allWorksButton.addEventListener('click', () => {
-        fetchAndDisplayWorks();
-    });
-    filtersContainer.appendChild(allWorksButton);
-
-    // Boutons pour chaque catégorie
-    categories.forEach(category => {
-        const filterButton = document.createElement('button');
-        filterButton.textContent = category.name; 
-        filterButton.className = 'button';
-        filterButton.addEventListener('click', () => {
-            fetchAndDisplayWorks(category.name);
+    fetch('http://localhost:5678/api/categories')
+    .then(response => response.json())
+    .then(categories => {
+        filtersContainer.innerHTML = '<button class="filter-btn" data-filter="Tous">Tous</button>'; // Bouton pour tous les travaux
+        categories.forEach(category => {
+            const button = document.createElement('button');
+            button.textContent = category.name; // Utilisation de 'name' si l'API retourne un objet
+            button.className = 'filter-btn';
+            button.setAttribute('data-filter', category.name);
+            button.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-filter');
+                fetchAndDisplayWorks(filterValue);
+            });
+            filtersContainer.appendChild(button);
         });
-        filtersContainer.appendChild(filterButton);
-    });
+    })
+    .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
 }
-
-// Appel initial pour charger et afficher les travaux et initialiser les filtres
-fetchAndDisplayWorks();
-initializeFilters();
