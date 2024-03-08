@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const imagesContainer = document.querySelector('.gallery');
 const filtersContainer = document.querySelector('.filters');
 
-// Fonction pour afficher les travaux
+// Afficher les travaux
 function fetchAndDisplayWorks(category = '') {
     let url = 'http://localhost:5678/api/works';
     if (category && category !== 'Tous') {
@@ -22,7 +22,7 @@ function fetchAndDisplayWorks(category = '') {
     .catch(error => console.error('Erreur lors de la récupération des travaux:', error));
 }
 
-// Fonction pour afficher les travaux dans la galerie
+//Afficher les travaux dans la galerie
 function displayWorks(works) {
     imagesContainer.innerHTML = '';
     works.forEach(work => {
@@ -39,7 +39,7 @@ function displayWorks(works) {
     });
 }
 
-// Fonction pour initialiser les filtres
+// Initialiser les filtres
 function initializeFilters() {
     fetch('http://localhost:5678/api/categories')
     .then(response => response.json())
