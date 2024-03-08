@@ -20,7 +20,7 @@ formulaire.addEventListener("submit", (event) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(user) 
+        body: JSON.stringify(user)
     })
         .then(response => {
             if (response.ok) {
