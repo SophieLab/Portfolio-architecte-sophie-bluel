@@ -3,19 +3,87 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -23,45 +91,67 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
-ol, ul {
+
+ol,
+ul {
 	list-style: none;
 }
-blockquote, q {
+
+blockquote,
+q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 body {
 	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
+	margin: auto;
+	font-family: 'Work Sans';
 	font-size: 14px;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
 }
+
 section {
 	margin: 50px 0
 }
 
-h1{
+h1 {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
@@ -70,25 +160,27 @@ h1{
 	color: #B1663C
 }
 
-h1 > span {
+h1>span {
 	font-family: 'Work Sans';
-	font-size:10px;
+	font-size: 10px;
 	letter-spacing: 0.1em;
-;
+	;
 }
 
-h2{
+h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
 	color: #1D6154
 }
+
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -97,13 +189,16 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
 	flex: 1
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
@@ -113,6 +208,7 @@ li:hover {
 #introduction article {
 	flex: 1
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -120,10 +216,12 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -136,48 +234,56 @@ li:hover {
 	width: 100%;
 
 }
+
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+
+#contact>* {
 	text-align: center;
 
 }
-#contact h2{
+
+#contact h2 {
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
-	margin-top:30px;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input , .filter-btn {
+#contact input,
+.filter-btn {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"], .filter-btn {
-    display: block;
-    margin: 1em 0.25em; 
-    font-family: 'Syne';
-    font-weight: 700;
-    color: white;
-    background-color: #1D6154;
-    width: 200px;
-    text-align: center;
-    border-radius: 60px;
+input[type="submit"],
+.filter-btn {
+	display: block;
+	margin: 1em 0.25em;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	width: 200px;
+	text-align: center;
+	border-radius: 60px;
 }
 
 footer nav ul {
@@ -188,67 +294,67 @@ footer nav ul {
 
 
 #lostPassword {
-    display: block; 
-    margin-top: 20px; 
-    text-align: center; 
-    color: #B1663C; 
+	display: block;
+	margin-top: 20px;
+	text-align: center;
+	color: #B1663C;
 }
 
 input:hover {
-    cursor: pointer; 
+	cursor: pointer;
 }
 
 a:hover,
 button:hover,
 input:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .filters {
-    display: flex;
-    justify-content: center; 
-    flex-wrap: wrap; 
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
- 
-  /* FORM */
-  #contact {
+
+/* FORM */
+#contact {
 	width: 50%;
 	margin: auto;
-  }
-  
-  #contact > * {
+}
+
+#contact>* {
 	text-align: center;
-  }
-  
-  #contact h2 {
+}
+
+#contact h2 {
 	margin-bottom: 20px;
-  }
-  
-  #contact form {
+}
+
+#contact form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
-  }
-  
-  #contact input {
+}
+
+#contact input {
 	height: 50px;
 	font-size: 1.2em;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	border: none;
-  }
-  
-  #contact label {
+}
+
+#contact label {
 	margin: 2em 0 1em 0;
-  }
-  
-  #contact textarea {
+}
+
+#contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  }
-  
-  #contact input[type=submit] {
+}
+
+#contact input[type=submit] {
 	font-family: "Syne";
 	font-weight: 700;
 	color: white;
@@ -259,60 +365,58 @@ input:hover {
 	border-radius: 60px;
 	transition: all 0.5s ease;
 	border: 2px solid #1D6154;
-  }
-  
-  #contact input[type=submit]:hover {
+}
+
+#contact input[type=submit]:hover {
 	color: #1D6154;
 	background-color: white;
 	scale: 1.05;
-  }
-  
-  .login__form {
+}
+
+.login__form {
 	display: flex;
 	flex-direction: column;
 	margin-top: 20px;
 	width: 35%;
-  }
-  
-  .login__form input {
+}
+
+.login__form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  }
-  
-  .login__form label {
+}
+
+.login__form label {
 	margin: 3em 0 1em 0;
-  }
-  
-  .login__form textarea {
+}
+
+.login__form textarea {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  }
-  
+}
 
-
-  
-  a {
+a {
 	text-decoration: none;
 	color: #1D6154;
-  }
-  
- 
-  /* FILTER */
-  .error {
+}
+
+
+/* FILTER */
+.error {
 	grid-column: 2;
 	margin: 30px 0;
 	text-align: center;
 	font-size: 1rem;
-  }
-  
-  .filters {
+}
+
+.filters {
 	display: flex;
 	justify-content: center;
 	margin: 40px 0;
-  }
-  
-  .filter__btn, .btn-admin {
+}
+
+.filter__btn,
+.btn-admin {
 	font-family: "Syne";
 	padding: 10px 20px;
 	margin: 0 15px;
@@ -324,24 +428,24 @@ input:hover {
 	font-weight: 700;
 	cursor: pointer;
 	transition: all 0.5s ease;
-  }
-  
-  .filter__btn--active, .btn-admin {
+}
+
+.filter__btn--active,
+.btn-admin {
 	color: white;
 	background-color: #1D6154;
-  }
-  
-  /* LOGIN */
-  .login {
+}
+
+/* LOGIN */
+.login {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 80vh;
-  }
-  
-  .login a {
+}
+
+.login a {
 	text-decoration: underline;
 	margin-bottom: 100px;
-  }
-
+}
