@@ -1,42 +1,60 @@
-const formulaire = document.getElementById('login__form');
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#email').value = 'sophiebluel@gmail.com';
+    document.querySelector('#password').value = 'admin';
 
-// Ajout d'un gestionnaire d'événements
-formulaire.addEventListener("submit", (event) => {
-    event.preventDefault();
+    const loginLink = document.querySelector('.login__link');
+    const token = localStorage.getItem('token');
+    
+    // Vérification si l'utilisateur est déjà connecté
+    if (token) {
+        loginLink.textContent = 'Logout';
+    } else {
+        loginLink.textContent = 'Login';
+    }
+    
+    loginLink.addEventListener('click', (e) => {
+        if (loginLink.textContent === 'Logout') {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            loginLink.textContent = 'Login';
+            window.location.href = 'index.html';
+        }
+    });
 
-    // Récupération des éléments du formulaire et de la zone d'affichage des messages d'erreur
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
-    const messageError = document.querySelector('#error');
+    const formulaire = document.getElementById('login__form');
 
-    // Préparation des données utilisateur à envoyer à l'API
-    const user = { email, password };
-    const url = 'http://localhost:5678/api/users/login';
+    formulaire.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-    // Envoi des données utilisateur à l'API 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
+        const messageError = document.querySelector('#error');
+
+        const user = { email, password };
+        const url = 'http://localhost:5678/api/users/login';
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
         .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
+            /*if (!response.ok) {
                 throw new Error('Erreur d’identification. Veuillez vérifier votre email ou mot de passe.');
-            }
+            }*/
+            return response.json();
         })
         .then(data => {
-            // Stockage du token d'authentification dans le localStorage
             localStorage.setItem('token', data.token);
-            // Redirection de l'utilisateur vers la page d'accueil
+            // Mettre à jour le texte du lien 
+            loginLink.textContent = 'Logout';
+            // Redirection vers la page d'accueil après connexion réussie
             window.location.href = 'index.html';
         })
         .catch(error => {
-            // Affichage du message d'erreur en cas d'échec de l'authentification
             console.error("Echec de l'authentification :", error);
             messageError.textContent = error.message;
             messageError.style.display = 'block';
@@ -44,4 +62,5 @@ formulaire.addEventListener("submit", (event) => {
                 messageError.style.display = 'none';
             }, 5000);
         });
+    });
 });

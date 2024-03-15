@@ -69,3 +69,4 @@ function initializeFilters() {
         })
         .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
 }
+
