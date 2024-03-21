@@ -449,3 +449,83 @@ a {
 	text-decoration: underline;
 	margin-bottom: 100px;
 }
+
+
+
+/* Barre édition */
+
+.bar-edition {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+	color: white;
+	width: 1440px;
+	height: 59px;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+}
+
+.bar-edition ul {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	margin: 0;
+}
+
+.bar-edition li {
+	margin: 0 10px;
+}
+
+.bar-edition a {
+	color: white;
+	text-decoration: none;
+}
+
+.publish-btn {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+body {
+	padding-top: 59px;
+}
+
+/* Style pour le bouton de modification */
+.button-modification {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+	display: inline-flex;
+	align-items: center;
+}
+
+.button-modification .fa-sharp {
+	margin-right: 8px;
+	color: black;
+}
+
+.button-modification:hover {
+	color: #333;
+}
+
+.button-modification:hover .fa-sharp {
+	color: #333;
+}
+
+/* Overlay */
+
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.30);
+	z-index: 9999;
+	display: none;
+}

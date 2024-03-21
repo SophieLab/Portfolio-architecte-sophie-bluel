@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchAndDisplayWorks();
     initializeFilters();
+    setupModificationButton();
+
 });
 
 const imagesContainer = document.querySelector('.gallery');
 const filtersContainer = document.querySelector('.filters');
+const overlay = document.getElementById('overlay');
+
 
 // Afficher les travaux
 function fetchAndDisplayWorks(category) {
@@ -48,7 +52,6 @@ function initializeFilters() {
             filtersContainer.innerHTML = '<button class="filter-btn" data-filter="Tous">Tous</button>';// Bouton pour tous les travaux
 
 
-            // Ajout de l'écouteur d'événement au bouton "Tous"
             const allButton = filtersContainer.querySelector('.filter-btn[data-filter="Tous"]');
             allButton.addEventListener('click', function () {
                 fetchAndDisplayWorks('Tous');
@@ -67,5 +70,16 @@ function initializeFilters() {
             });
         })
         .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
-}
 
+}
+// Configuration du bouton de modification
+function setupModificationButton() {
+    const modificationButton = document.getElementById('button-modification');
+    modificationButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        overlay.style.display = 'block';
+    });
+}
+overlay.addEventListener('click', () => {
+    overlay.style.display = 'none';
+});

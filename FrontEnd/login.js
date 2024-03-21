@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#email').value = 'sophiebluel@gmail.com';
-    document.querySelector('#password').value = 'admin';
+    document.querySelector('#email').value = 'sophie.bluel@test.tld';
+    document.querySelector('#password').value = 'S0phie';
 
     const loginLink = document.querySelector('.login__link');
     const token = localStorage.getItem('token');
@@ -42,16 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify(user)
         })
             .then(response => {
-                /*if (!response.ok) {
+                if (!response.ok) {
                     throw new Error('Erreur d’identification. Veuillez vérifier votre email ou mot de passe.');
-                }*/
+                }
                 return response.json();
             })
             .then(data => {
                 localStorage.setItem('token', data.token);
-                // Mettre à jour le texte du lien 
                 loginLink.textContent = 'Logout';
-                // Redirection vers la page d'accueil après connexion réussie
+                 //Redirection vers la page d'accueil après connexion réussie
                 window.location.href = 'index.html';
             })
             .catch(error => {
