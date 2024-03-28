@@ -354,24 +354,29 @@ input:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact input[type=submit] {
-	font-family: "Syne";
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin: 3em auto;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px;
-	transition: all 0.5s ease;
-	border: 2px solid #1D6154;
+input[type="submit"], #AjoutPhoto, #Valider, .filter-btn {
+    height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    width: 200px;
+    text-align: center;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.5s ease;
 }
 
-#contact input[type=submit]:hover {
-	color: #1D6154;
-	background-color: white;
-	scale: 1.05;
+input[type="submit"]:hover, #AjoutPhoto:hover, #Valider:hover {
+    background-color: white;
+    color: #1D6154;
+    transform: scale(1.05);
+    border: solid 2px #1D6154; 
 }
+
 
 .login__form {
 	display: flex;
@@ -460,14 +465,11 @@ a {
 	align-items: center;
 	background-color: black;
 	color: white;
-	width: 1440px;
+	width: 1140px;
 	height: 59px;
-	position: fixed;
-	top: 0;
-	left: 50%;
-	transform: translateX(-50%);
 	z-index: 1000;
 }
+
 
 .bar-edition ul {
 	list-style: none;
@@ -491,9 +493,7 @@ a {
 	cursor: pointer;
 }
 
-body {
-	padding-top: 59px;
-}
+
 
 /* Style pour le bouton de modification */
 .button-modification {
@@ -528,4 +528,76 @@ body {
 	background-color: rgba(0, 0, 0, 0.30);
 	z-index: 9999;
 	display: none;
+}
+
+/* Stylisation de base des modales */
+.modale {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 630px;
+    height: 670px;
+    border-radius: 10px;
+    background: #FFF; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10; 
+
+/* Stylisation de base des modales */
+.modale {
+    display: none; 
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 630px;
+    height: 670px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    z-index: 10;
+
+/* Stylisation du contenu de la modale */
+.modale-content {
+    padding: 20px;
+    height: 630px; 
+    overflow-y: auto;
+}
+
+/* Stylisation des boutons de fermeture */
+.close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Stylisation des boutons d'action */
+#AjoutPhoto, #Valider {
+	display: block;
+	margin: 1em 0.25em;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	width: 200px;
+	text-align: center;
+	border-radius: 60px;
+}
+
+/* Ajout d'un peu d'espace autour des boutons à l'intérieur de l'overlay */
+#overlay > button {
+    margin: 0 10px;
+}
+
+/* Stylisation spécifique pour les paragraphes à l'intérieur des modales */
+.modale .modale-content p {
+    color: #000;
+    text-align: center;
+    font-family: "Work Sans", sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
