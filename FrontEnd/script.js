@@ -78,8 +78,21 @@ function setupModificationButton() {
     modificationButton.addEventListener('click', (event) => {
         event.preventDefault();
         overlay.style.display = 'block';
+        event.stopPropagation();
     });
 }
-overlay.addEventListener('click', () => {
-    overlay.style.display = 'none';
+// Empêcher que les clics effectués à l'intérieur d'une modale ne soient propagés
+
+function setupModalClickPropagation() {
+    document.querySelectorAll('.modale').forEach(modale => {
+        modale.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    });
+}
+
+overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) {
+        overlay.style.display = 'none';
+    }
 });

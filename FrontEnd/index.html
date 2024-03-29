@@ -16,48 +16,53 @@
 
 <body>
 
-<!-- Overlay -->
-<div id="overlay">
-    <!-- Modale Galerie Photo -->
-    <div id="modaleGalerie" class="modale">
-        <div class="modale-content">
-            <span class="close" data-modale="modaleGalerie">&times;</span>
-            <p>Galerie photo</p>
-            <!-- Contenu de la galerie -->
-            <button id="AjoutPhoto">Ajouter une photo</button> <!-- Bouton ajouté -->
+    <!-- Overlay -->
+    <div id="overlay">
+
+        <!-- Modale Galerie Photo -->
+        <div id="modaleGalerie" class="modale">
+            <div class="modale-content">
+                <div class="modale-header">
+                    <p class="modale-titre">Galerie photo</p>
+                    <span class="close" data-modale="modaleGalerie">&times;</span>
+                </div>
+                <button id="AjoutPhoto">Ajouter une photo</button> <!-- Bouton ajouté -->
+            </div>
+        </div>
+
+        <!-- Modale d'ajout de photo -->
+        <div id="modaleAjoutPhoto" class="modale">
+            <div class="modale-content">
+                <div class="modale-header">
+                    <span id="retourGalerie" class="retour-fleche">&#x2190;</span>
+                    <p class="modale-titre">Ajout photo</p>
+                    <span class="close">&times;</span>
+                </div>
+
+                <!-- Upload d'image -->
+                <div id="imageUploadContainer" class="image-upload-container">
+                    <button for="fileInput" class="image-upload-label"> + Ajouter photo </button>
+                    <input type="file" id="fileInput" style="display:none;">
+                </div>
+                <input type="text" id="photoTitle" class="photo-title" placeholder="Titre de la photo">
+                <!-- Catégorie de la photo -->
+                <select id="photoCategory" class="photo-category">
+                </select>
+                <!-- Bouton d'ajout de la photo -->
+                <button id="Valider">Ajouter photo</button>
+            </div>
         </div>
     </div>
 
-    <!-- Modale Ajout Photo -->
-    <div id="modaleAjoutPhoto" class="modale">
-        <div class="modale-content">
-            <span class="close" data-modale="modaleAjoutPhoto">&times;</span>
-            <p>Ajout photo</p>
-            <!-- Zone d'ajout d'image symbolique -->
-            <div id="imageUploadContainer" style="width: 100px; height: 100px; border: 2px dashed #ccc; margin: 10px auto; display: flex; align-items: center; justify-content: center;">
-                <label for="fileInput" style="cursor: pointer;">
-                    <img src="path/to/your/upload-icon.png" alt="Ajouter" style="width: 50px; height: 50px;" />
-                </label>
-            </div>
-            <!-- Champ pour le titre de la photo -->
-            <input type="text" id="photoTitle" placeholder="Titre de la photo" style="display: block; margin: 10px auto; width: calc(100% - 20px);" />
-            <!-- Menu déroulant pour les catégories -->
-            <select id="photoCategory" style="display: block; margin: 10px auto; width: calc(100% - 20px);">
-                <option value="">Sélectionner une catégorie</option>
-                <option value="nature">Nature</option>
-                <option value="villes">Villes</option>
-                <option value="portraits">Portraits</option>
-            </select>
-            <button id="Valider">Ajouter photo</button>
-        </div>
+
+
     </div>
-</div>
     <!-- Bar edition -->
     <div id="bar" class="bar-edition">
         <i class="fa-solid fa-pen-to-square"></i>Mode édition
-        
+
     </div>
-                                                                                                                                                                                                                                       
+
     <header>
         <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
         <nav>
@@ -86,12 +91,11 @@
             </article>
         </section>
         <section id="portfolio">
-            <div>
+            <div class="portfolio-header">
                 <h2>Mes Projets</h2>
-                <a id="button-modification" class="button-modification" href="#modal"><i
-                        class="fa-sharp fa-regular fa-pen-to-square"></i>modifier</a>
-
-
+                <a id="button-modification" class="button-modification" href="#modal">
+                    <i class="fa-sharp fa-regular fa-pen-to-square"></i>modifier
+                </a>
             </div>
             <div class="filters">
                 <!-- Gestion dynamique de récupération des catégories et du filtrage des travaux -->
