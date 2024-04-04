@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
         ouvrirModale('modaleAjoutPhoto');
     });
 
-    // Fermeture des modales sur clic des boutons de fermeture
+    // Fermeture des modales
     document.querySelectorAll('.close').forEach(btn => {
         btn.addEventListener('click', function() {
             fermerModales();
         });
     });
 
-    // Validation et traitement de l'ajout de la photo
+    // Validation de l'ajout de la photo
     document.getElementById('Valider').addEventListener('click', function() {
         const fileInput = document.getElementById('fileInput');
         const title = document.getElementById('photoTitle').value;
@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!fileInput.files.length || !title || !category) {
             alert('Veuillez remplir tous les champs et sélectionner une photo.');
         } else {
-            // Ferme les modales si l'ajout est réussi
             fermerModales();
         }
     });
