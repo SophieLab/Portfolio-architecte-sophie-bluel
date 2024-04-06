@@ -16,25 +16,33 @@
 
 <body>
 
-    <!-- Overlay -->
-    <div id="overlay">
+   <!-- Overlay -->
+<div id="overlay" style="display: none;">
 
-        <!-- Modale Galerie Photo -->
-        <div id="modaleGalerie" class="modale">
-            <div class="modale-content">
-                <div class="modale-header">
-                    <p class="modale-titre">Galerie photo</p>
-                    <span class="close" data-modale="modaleGalerie">&times;</span>
-                </div>
-                <button id="AjoutPhoto">Ajouter une photo</button>
+    <!-- Modale Galerie Photo -->
+    <div id="modaleGalerie" class="modale" style="display: none;">
+        <div class="modale-content">
+            <!-- Il semble y avoir une répétition ici avec "modale-header", nous pouvons en retirer un. -->
+            <div class="modale-header">
+                <p class="modale-titre">Galerie photo</p>
+                <span class="close" data-modale="modaleGalerie">&times;</span>
             </div>
+            <div id="galerie-modale">
+                <!-- Contenu à charger ici -->
+            </div>
+            <!-- Déplacement du bouton d'ajout de photo à l'extérieur de la modale-header mais à l'intérieur de la modale-content pour une structure plus claire -->
+            <button id="AjoutPhoto">Ajouter une photo</button>
         </div>
+    </div>
+</div>
+
 
       <!-- Modale d'ajout de photo -->
 <div id="modaleAjoutPhoto" class="modale">
     <div class="modale-content">
         <div class="modale-header">
-            <span id="retourGalerie" class="retour-fleche">&#x2190;</span>
+            <span id="retourGalerie" class="retour-fleche">&#x2190;</span>   <!-- Remplacer par une  une icone croix -->
+
             <p class="modale-titre">Ajout photo</p>
             <span class="close">&times;</span>
         </div>
@@ -64,7 +72,7 @@
         <!-- Bouton d'ajout de la photo -->
         <button id="Valider">Ajouter photo</button>
     </div>
-
+</div>
     </div>
     <!-- Bar edition -->
     <div id="bar" class="bar-edition">
