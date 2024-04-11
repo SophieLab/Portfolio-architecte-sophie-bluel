@@ -1,54 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    chargerCategories();
-    chargerTravaux();
+    initApp();
 
-    function ouvrirModale(idModale) {
-        const modale = document.getElementById(idModale);
-        if (modale) {
-            modale.style.display = 'block'; // Affiche la modale
-            document.getElementById('overlay').style.display = 'block'; // Affiche l'overlay
-            // Si ouverture de la modale galerie, recharge les travaux
-            if (idModale === 'modaleGalerie') chargerTravaux();
-        }
+    function initApp() {
+        loadCategories();
+        loadWorks();
+        attachEventListeners();
     }
 
-    function fermerModales() {
-        document.querySelectorAll('.modale').forEach(modale => {
-            modale.style.display = 'none';
-        });
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    document.getElementById('button-modification').addEventListener('click', function() {
-        ouvrirModale('modaleGalerie');
-    });
-
-    document.getElementById('AjoutPhoto').addEventListener('click', function(event) {
-        event.stopPropagation();
-        ouvrirModale('modaleAjoutPhoto');
-    });
-
-    document.querySelectorAll('.close').forEach(btn => {
-        btn.addEventListener('click', function() {
-            fermerModales();
-        });
-    });
-
-    document.getElementById('Valider').addEventListener('click', function() {
-        // Logique de validation...
-        fermerModales();
-    });
-
-    document.getElementById('imageUploadContainer').addEventListener('click', function() {
-        document.getElementById('fileInput').click();
-    });
-
-    document.getElementById('retourGalerie').addEventListener('click', function() {
-        fermerModales();
-        ouvrirModale('modaleGalerie');
-    });
-
-    function chargerCategories() {
+    function loadCategories() {
         fetch('http://localhost:5678/api/categories')
             .then(response => response.json())
             .then(categories => {
@@ -61,20 +20,74 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(err => console.error('Erreur lors du chargement des catégories:', err));
     }
 
-    function chargerTravaux() {
+    function loadWorks() {
         fetch('http://localhost:5678/api/works')
             .then(response => response.json())
             .then(works => {
-                const galerieContainer = document.getElementById('galerie-modale');
-                galerieContainer.innerHTML = ''; // Vide la galerie avant de la remplir à nouveau
+                const galleryContainer = document.getElementById('galerie-modale');
+                galleryContainer.innerHTML = '';
                 works.forEach(work => {
+                    const figure = document.createElement('figure');
+                    figure.className = 'figure-img';
                     const imgElement = document.createElement('img');
                     imgElement.src = work.imageUrl;
                     imgElement.alt = work.title;
-                    imgElement.style.width = '100%'; // Ajustez comme nécessaire
-                    galerieContainer.appendChild(imgElement);
+                    figure.appendChild(imgElement);
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '<img src="assets/icons/trash-icon.svg" alt="Supprimer">';
+                    deleteBtn.addEventListener('click', function() {
+                        console.log('Supprimer l\'image:', work.id);
+                    });
+                    figure.appendChild(deleteBtn);
+                    galleryContainer.appendChild(figure);
                 });
             })
             .catch(err => console.error('Erreur lors du chargement des travaux:', err));
+    }
+
+    function attachEventListeners() {
+        const modaleGalerieBtn = document.getElementById('button-modification');
+        modaleGalerieBtn.addEventListener('click', () => openModal('modaleGalerie'));
+
+        const ajoutPhotoBtn = document.getElementById('AjoutPhoto');
+        ajoutPhotoBtn.addEventListener('click', () => openModal('modaleAjoutPhoto'));
+
+        const closeButtons = document.querySelectorAll('.close');
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', closeModal);
+        });
+
+        const retourGalerie = document.getElementById('retourGalerie');
+        retourGalerie.addEventListener('click', () => {
+            closeModal();
+            openModal('modaleGalerie');
+        });
+
+        document.getElementById('imageUploadContainer').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('Valider').addEventListener('click', closeModal);
+    }
+
+    function openModal(modalId) {
+        closeModal();
+        const modal = document.getElementById(modalId);
+        const overlay = document.getElementById('overlay');
+        if (modal && overlay) {
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+    }
+
+    function closeModal() {
+        const modals = document.querySelectorAll('.modale');
+        const overlay = document.getElementById('overlay');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+        });
+        overlay.style.display = 'none';
     }
 });

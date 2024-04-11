@@ -1,35 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchAndDisplayWorks();
+    fetchAndDisplayWorks('Tous'); // Affiche initialement tous les travaux
     initializeFilters();
-    setupModificationButton();
-
 });
 
 const imagesContainer = document.querySelector('.gallery');
 const filtersContainer = document.querySelector('.filters');
 const overlay = document.getElementById('overlay');
 
-
-// Afficher les travaux
+// Afficher les travaux selon la catégorie
 function fetchAndDisplayWorks(category) {
     let url = 'http://localhost:5678/api/works';
     fetch(url)
         .then(response => response.json())
         .then(works => {
-            if (category === undefined || category === "Tous") {
-                displayWorks(works)
-            } else {
-
-                let newWorksArray = works.filter((work) => work.category.name === category)
-                displayWorks(newWorksArray)
-            }
+            // Filtre les travaux si une catégorie spécifique est choisie
+            const filteredWorks = category !== "Tous" ? works.filter(work => work.category.name === category) : works;
+            displayWorks(filteredWorks);
         })
         .catch(error => console.error('Erreur lors de la récupération des travaux:', error));
 }
 
-//Afficher les travaux dans la galerie
+// Afficher les travaux dans la galerie
 function displayWorks(works) {
-    imagesContainer.innerHTML = '';
+    imagesContainer.innerHTML = ''; // Réinitialise la galerie
     works.forEach(work => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
@@ -44,55 +37,33 @@ function displayWorks(works) {
     });
 }
 
-// Initialiser les filtres
+// Initialiser les filtres de catégorie
 function initializeFilters() {
     fetch('http://localhost:5678/api/categories')
         .then(response => response.json())
         .then(categories => {
-            filtersContainer.innerHTML = '<button class="filter-btn" data-filter="Tous">Tous</button>';// Bouton pour tous les travaux
-
-
-            const allButton = filtersContainer.querySelector('.filter-btn[data-filter="Tous"]');
-            allButton.addEventListener('click', function () {
-                fetchAndDisplayWorks('Tous');
-            });
+            categories.unshift({name: "Tous"}); // Ajoute "Tous" au début du tableau pour créer un bouton "Tous"
 
             categories.forEach(category => {
                 const button = document.createElement('button');
                 button.textContent = category.name;
-                button.className = 'filter-btn';
+                button.className = 'filtersNone'; // Utilise la classe pour le style
                 button.setAttribute('data-filter', category.name);
-                button.addEventListener('click', function () {
-                    const filterValue = this.getAttribute('data-filter');
-                    fetchAndDisplayWorks(filterValue);
+                
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filters button').forEach(btn => {
+                        btn.classList.remove('filterActive'); // Retire la classe active des autres boutons
+                    });
+                    this.classList.add('filterActive'); // Ajoute la classe active au bouton cliqué
+                    fetchAndDisplayWorks(category.name);
                 });
+                
                 filtersContainer.appendChild(button);
             });
+
+            // Active par défaut le bouton "Tous"
+            const allButton = filtersContainer.querySelector('button[data-filter="Tous"]');
+            allButton.classList.add('filterActive');
         })
         .catch(error => console.error('Erreur lors de la récupération des catégories:', error));
-
 }
-// Configuration du bouton de modification
-function setupModificationButton() {
-    const modificationButton = document.getElementById('button-modification');
-    modificationButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        overlay.style.display = 'block';
-        event.stopPropagation();
-    });
-}
-// Empêcher que les clics effectués à l'intérieur d'une modale ne soient propagés
-
-function setupModalClickPropagation() {
-    document.querySelectorAll('.modale').forEach(modale => {
-        modale.addEventListener('click', (event) => {
-            event.stopPropagation();
-        });
-    });
-}
-
-overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) {
-        overlay.style.display = 'none';
-    }
-});
