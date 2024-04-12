@@ -34,7 +34,7 @@ function displayWorks(works) {
         figure.appendChild(img);
         figure.appendChild(figcaption);
         imagesContainer.appendChild(figure);
-    });
+    }); 
 }
 
 // Initialiser les filtres de catégorie
@@ -47,7 +47,7 @@ function initializeFilters() {
             categories.forEach(category => {
                 const button = document.createElement('button');
                 button.textContent = category.name;
-                button.className = 'filtersNone'; // Utilise la classe pour le style
+                button.className = 'filtersNone'; 
                 button.setAttribute('data-filter', category.name);
                 
                 button.addEventListener('click', function() {

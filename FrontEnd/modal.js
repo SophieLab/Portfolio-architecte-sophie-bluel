@@ -1,12 +1,13 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initApp();
 
     function initApp() {
-        loadCategories();
+        // Charger les catégories et les œuvres 
         loadWorks();
         attachEventListeners();
     }
 
+    // Récupère les données des catégories  remplit le menu déroulant des catégories
     function loadCategories() {
         fetch('http://localhost:5678/api/categories')
             .then(response => response.json())
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(err => console.error('Erreur lors du chargement des catégories:', err));
     }
 
+    // Récupère les données des travauxet les affiche dans la galerie modale
     function loadWorks() {
         fetch('http://localhost:5678/api/works')
             .then(response => response.json())
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const deleteBtn = document.createElement('button');
                     deleteBtn.className = 'delete-btn';
                     deleteBtn.innerHTML = '<img src="assets/icons/trash-icon.svg" alt="Supprimer">';
-                    deleteBtn.addEventListener('click', function() {
+                    deleteBtn.addEventListener('click', function () {
                         console.log('Supprimer l\'image:', work.id);
                     });
                     figure.appendChild(deleteBtn);
@@ -72,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('Valider').addEventListener('click', closeModal);
     }
 
+    // Ouvre une modale
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -82,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Ferme toutes les modales et l'overlay
     function closeModal() {
         const modals = document.querySelectorAll('.modale');
         const overlay = document.getElementById('overlay');

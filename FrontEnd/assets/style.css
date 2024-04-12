@@ -321,26 +321,26 @@ input:hover {
 
 /* Filtres */
 .filters {
-    align-items: center;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 60px;
-    margin-top: 20px;
+	align-items: center;
+	display: flex;
+	gap: 15px;
+	justify-content: center;
+	margin-bottom: 60px;
+	margin-top: 20px;
 }
 
 .filtersNone {
-    border: 1px solid #1D6154;
-    border-radius: 60px;
-    color: #1D6154;
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    padding: 10px 25px 10px 25px;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	color: #1D6154;
+	cursor: pointer;
+	font-family: 'Syne', sans-serif;
+	padding: 10px 25px 10px 25px;
 }
 
 .filterActive {
-    color: white;
-    background-color: #1D6154;
+	color: white;
+	background-color: #1D6154;
 }
 
 /* FORM */
@@ -533,8 +533,7 @@ a {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.30);
-	z-index: 9999;
+	background-color: rgba(0, 0, 0, 0.3);
 	display: none;
 }
 
@@ -626,8 +625,6 @@ a {
 	text-align: center;
 }
 
-
-/* Stylisation des champs de saisie et Input */
 .photo-title,
 .photo-category {
 	display: block;
@@ -696,47 +693,47 @@ a {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
-  }
-  
-  #galerie-modale img {
+}
+
+#galerie-modale img {
 	width: 100%;
 
-  }
+}
 
-  .figure-img {
-    position: relative;
-    display: inline-block; 
-    margin: 5px;
+.figure-img {
+	position: relative;
+	display: inline-block;
+	margin: 5px;
 }
 
 .figure-img img {
-    width: 100%; 
-    height: auto; 
-    display: block;
+	width: 100%;
+	height: auto;
+	display: block;
 }
 
 .delete-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 17px;
-    height: 17px;
-    display: flex;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: black;
+	color: white;
+	border: none;
+	cursor: pointer;
+	width: 17px;
+	height: 17px;
+	display: flex;
 	border-radius: 2px;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
 }
 
 .delete-btn img {
-    width: 9px;
-    height: 11px; /* Dimensions spécifiques pour l'icône SVG */
+	width: 9px;
+	height: 11px;
 }
 
 .delete-btn:hover {
-    background-color: #f00; /* Couleur lors du survol */
+	background-color: #f00;
 }
