@@ -2,18 +2,15 @@ document.addEventListener('DOMContentLoaded', function () {
     initApp();
 
     function initApp() {
-        // Charger les catégories et les œuvres
         loadWorks();
+        loadCategories();
         attachEventListeners();
     }
 
-    // Fonction pour récupérer le jeton d'autorisation
     function getAuthorization() {
-        // Remplacez cette chaîne par votre méthode de récupération du jeton réel
-        return 'Bearer votre_jeton_api_ici';
+        return 'Bearer votre_jeton_api_ici';  // Remplacez par votre méthode de récupération du jeton réel
     }
 
-    // Récupère les données des catégories et remplit le menu déroulant des catégories
     function loadCategories() {
         fetch('http://localhost:5678/api/categories')
             .then(response => response.json())
@@ -27,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Erreur lors du chargement des catégories:', err));
     }
 
-    // Récupère les données des œuvres et les affiche dans la galerie modale
     function loadWorks() {
         fetch('http://localhost:5678/api/works')
             .then(response => response.json())
@@ -53,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Erreur lors du chargement des œuvres:', err));
     }
 
-    // Supprimer des œuvres
     function deleteWork(event, id) {
         fetch('http://localhost:5678/api/works/' + id, {
             method: "DELETE",
@@ -74,31 +69,46 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function attachEventListeners() {
-        const modaleGalerieBtn = document.getElementById('button-modification');
-        modaleGalerieBtn.addEventListener('click', () => openModal('modaleGalerie'));
+        document.getElementById('imageUploadContainer').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
 
-        const ajoutPhotoBtn = document.getElementById('AjoutPhoto');
-        ajoutPhotoBtn.addEventListener('click', () => openModal('modaleAjoutPhoto'));
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+        document.getElementById('button-modification').addEventListener('click', () => openModal('modaleGalerie'));
+        document.getElementById('AjoutPhoto').addEventListener('click', () => openModal('modaleAjoutPhoto'));
 
         const closeButtons = document.querySelectorAll('.close');
         closeButtons.forEach(btn => {
             btn.addEventListener('click', closeModal);
         });
 
-        const retourGalerie = document.getElementById('retourGalerie');
-        retourGalerie.addEventListener('click', () => {
+        document.getElementById('retourGalerie').addEventListener('click', () => {
             closeModal();
             openModal('modaleGalerie');
-        });
-
-        document.getElementById('imageUploadContainer').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
         });
 
         document.getElementById('Valider').addEventListener('click', closeModal);
     }
 
-    // Ouvre une modale
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const iconImage = document.querySelector('.icon-image');
+        const uploadLabel = document.querySelector('.image-upload-label');
+        const formatInfo = document.querySelector('.format-info');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                iconImage.src = e.target.result;
+                iconImage.alt = 'Aperçu de la photo téléchargée';
+                uploadLabel.style.display = 'none';
+                formatInfo.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -107,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.style.display = 'block';
     }
 
-    // Ferme toutes les modales et l'overlay
     function closeModal() {
         const modals = document.querySelectorAll('.modale');
         const overlay = document.getElementById('overlay');
