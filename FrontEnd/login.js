@@ -1,37 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginLink = document.querySelector('.login__link');
     const connectionButton = document.querySelector('#connection');
-    // Récupère le token de connexion stocké localement
     const token = localStorage.getItem('token');
+    updateLoginState(token);
 
-    updateLoginState(loginLink, connectionButton, token);
-
-    // Ajoute un écouteur d'événements pour gérer le clic sur le lien de déconnexion
-    loginLink.addEventListener('click', (e) => {
-        if (loginLink.textContent === 'Logout') {
-            e.preventDefault();
-            performLogout(loginLink, connectionButton);
-        }
-    });
-
-    // Sélectionne le formulaire de connexion et ajoute un écouteur pour son envoi
-    const formulaire = document.getElementById('login__form');
-    formulaire.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if (connectionButton.value === 'Déconnexion') {
-            performLogout(loginLink, connectionButton);
-        } else {
-            const email = document.querySelector('#email').value;
-            const password = document.querySelector('#password').value;
-            const messageError = document.querySelector('#error');
-            loginUser(email, password, loginLink, messageError, connectionButton);
-        }
-    });
+    loginLink.addEventListener('click', handleLoginLinkClick);
+    document.getElementById('login__form').addEventListener('submit', handleLoginFormSubmit);
 });
 
-// Mettre à jour l'état de la connexion dans l'interface utilisateur
-function updateLoginState(loginLink, connectionButton, token) {
+function updateLoginState(token) {
+    const loginLink = document.querySelector('.login__link');
+    const connectionButton = document.querySelector('#connection');
     if (token) {
         loginLink.textContent = 'Logout';
         connectionButton.value = 'Déconnexion';
@@ -41,24 +20,35 @@ function updateLoginState(loginLink, connectionButton, token) {
     }
 }
 
-// Fonction pour gérer la déconnexion de l'utilisateur
-function performLogout(loginLink, connectionButton) {
-    // Supprime le token stocké localement
+function handleLoginLinkClick(e) {
+    if (e.target.textContent === 'Logout') {
+        e.preventDefault();
+        performLogout();
+    }
+}
+
+function handleLoginFormSubmit(event) {
+    event.preventDefault();
+    const connectionButton = document.querySelector('#connection');
+    if (connectionButton.value === 'Déconnexion') {
+        performLogout();
+    } else {
+        const email = document.querySelector('#email').value;
+        const password = document.querySelector('#password').value;
+        const messageError = document.querySelector('#error');
+        loginUser(email, password, messageError);
+    }
+}
+
+function performLogout() {
     localStorage.removeItem('token');
-    // Met à jour les textes des liens et des boutons
-    loginLink.textContent = 'Login';
-    connectionButton.value = 'Se connecter';
-    // Redirige l'utilisateur vers la page de connexion
+    updateLoginState(null);
     window.location.href = 'login.html';
 }
 
-// Gérer la connexion de l'utilisateur
-function loginUser(email, password, loginLink, messageError, connectionButton) {
-    // Crée un objet utilisateur avec email et mot de passe
+function loginUser(email, password, messageError) {
     const user = { email, password };
     const url = 'http://localhost:5678/api/users/login';
-
-    // Envoie une requête POST pour la connexion
     fetch(url, {
         method: 'POST',
         headers: {
@@ -74,15 +64,11 @@ function loginUser(email, password, loginLink, messageError, connectionButton) {
         return response.json();
     })
     .then(data => {
-        // Stocke le token dans le stockage local et met à jour l'interface
         localStorage.setItem('token', data.token);
-        loginLink.textContent = 'Logout';
-        connectionButton.value = 'Déconnexion';
-        // Redirige l'utilisateur vers la page d'accueil
+        updateLoginState(data.token);
         window.location.href = 'index.html';
     })
     .catch(error => {
-        // Affiche un message d'erreur si la connexion échoue
         console.error("Echec de l'authentification :", error);
         messageError.textContent = error.message;
         messageError.style.display = 'block';

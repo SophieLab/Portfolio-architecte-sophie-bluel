@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     initApp();
 
+    // Fonction pour initialiser l'application
     function initApp() {
         loadWorks();
         loadCategories();
         attachEventListeners();
     }
 
+    // Récupère le jeton d'autorisation pour les appels API nécessitant une authentification
     function getAuthorization() {
-        return 'Bearer votre_jeton_api_ici';  // Remplacez par votre méthode de récupération du jeton réel
+        return 'Bearer';  // À remplacer par la méthode de récupération du jeton d'authentification réel
     }
 
+    // Charge les catégories depuis l'API et met à jour le menu déroulant des catégories
     function loadCategories() {
         fetch('http://localhost:5678/api/categories')
             .then(response => response.json())
@@ -24,12 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Erreur lors du chargement des catégories:', err));
     }
 
+    // Charge les œuvres depuis l'API et les affiche dans la galerie
     function loadWorks() {
         fetch('http://localhost:5678/api/works')
             .then(response => response.json())
             .then(works => {
                 const galleryContainer = document.getElementById('galerie-modale');
-                galleryContainer.innerHTML = '';
+                galleryContainer.innerHTML = ''; // Efface les œuvres précédentes
                 works.forEach(work => {
                     const figure = document.createElement('figure');
                     figure.className = 'figure-img';
@@ -49,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Erreur lors du chargement des œuvres:', err));
     }
 
+    // Fonction pour supprimer une œuvre spécifique
     function deleteWork(event, id) {
         fetch('http://localhost:5678/api/works/' + id, {
             method: "DELETE",
@@ -58,19 +63,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             }
         })
-        .then(() => {
-            event.target.closest('figure').remove();
-            alert("Votre photo a été supprimée avec succès.");
-        })
-        .catch((error) => {
-            console.error('Erreur:', error);
-            alert("Erreur lors de la suppression de la photo.");
-        });
+            .then(() => {
+                event.target.closest('figure').remove();
+                alert("Votre photo a été supprimée avec succès.");
+            })
+            .catch((error) => {
+                console.error('Erreur:', error);
+                alert("Erreur lors de la suppression de la photo.");
+            });
     }
 
     function attachEventListeners() {
         document.getElementById('imageUploadContainer').addEventListener('click', () => {
             document.getElementById('fileInput').click();
+
         });
 
         document.getElementById('fileInput').addEventListener('change', handleFileSelect);
@@ -78,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('button-modification').addEventListener('click', () => openModal('modaleGalerie'));
         document.getElementById('AjoutPhoto').addEventListener('click', () => openModal('modaleAjoutPhoto'));
 
-        const closeButtons = document.querySelectorAll('.close');
-        closeButtons.forEach(btn => {
+        // Fermeture des modales
+        document.querySelectorAll('.close').forEach(btn => {
             btn.addEventListener('click', closeModal);
         });
 
@@ -91,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('Valider').addEventListener('click', closeModal);
     }
 
+    // Gère la sélection de fichiers
     function handleFileSelect(event) {
         const file = event.target.files[0];
         const iconImage = document.querySelector('.icon-image');
@@ -99,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 iconImage.src = e.target.result;
                 iconImage.alt = 'Aperçu de la photo téléchargée';
                 uploadLabel.style.display = 'none';
@@ -109,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Ouvre une modale spécifiée par son ID
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -117,12 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.style.display = 'block';
     }
 
+    // Ferme toutes les modales ouvertes
     function closeModal() {
-        const modals = document.querySelectorAll('.modale');
-        const overlay = document.getElementById('overlay');
-        modals.forEach(modal => {
+        document.querySelectorAll('.modale').forEach(modal => {
             modal.style.display = 'none';
         });
-        overlay.style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
     }
 });

@@ -468,14 +468,20 @@ a {
 /* Barre édition */
 
 .bar-edition {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: black;
-	color: white;
-	width: 1140px;
+
+    display: flex;
+    background-color: black;
+    color: white;
+    width: 100%;
 	height: 59px;
-	z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+
 }
 
 
@@ -737,3 +743,4 @@ a {
 .delete-btn:hover {
 	background-color: #f00;
 }
+
