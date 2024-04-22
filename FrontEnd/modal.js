@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Récupère le jeton d'autorisation pour les appels API nécessitant une authentification
     function getAuthorization() {
-        return 'Bearer';  // À remplacer par la méthode de récupération du jeton d'authentification réel
+        return 'Bearer ' + localStorage.getItem('token')
     }
 
     // Charge les catégories depuis l'API et met à jour le menu déroulant des catégories
