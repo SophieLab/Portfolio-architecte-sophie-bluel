@@ -24,7 +24,7 @@ function fetchAndDisplayWorks(category) {
 function displayWorks(works) {
     imagesContainer.innerHTML = ''; // Réinitialise la galerie
     works.forEach(work => {
-        const figure = document.createElement('figure');
+            const figure = document.createElement('figure');
         const img = document.createElement('img');
         img.src = work.imageUrl;
         img.alt = work.title;
@@ -37,13 +37,14 @@ function displayWorks(works) {
     }); 
 }
 
+
 // Initialiser les filtres de catégorie
 function initializeFilters() {
     fetch('http://localhost:5678/api/categories')
         .then(response => response.json())
         .then(categories => {
+            console.log("Catégories récupérées:", categories); // Log pour déboguer
             categories.unshift({name: "Tous"}); // Ajoute "Tous" au début du tableau pour créer un bouton "Tous"
-
             categories.forEach(category => {
                 const button = document.createElement('button');
                 button.textContent = category.name;
@@ -61,7 +62,6 @@ function initializeFilters() {
                 filtersContainer.appendChild(button);
             });
 
-            // Active par défaut le bouton "Tous"
             const allButton = filtersContainer.querySelector('button[data-filter="Tous"]');
             allButton.classList.add('filterActive');
         })
