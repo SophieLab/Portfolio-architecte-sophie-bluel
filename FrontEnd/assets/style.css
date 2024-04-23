@@ -223,7 +223,11 @@ li:hover {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 20px;
+	gap: 30px;
+	margin-top: 139px;
+}
+.portfolio-header a {
+	gap: 10px;
 }
 
 #portfolio h2 {
@@ -232,16 +236,17 @@ li:hover {
 }
 
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three columns of equal width */
+    grid-column-gap: 7px; /* Horizontal gap between columns */
+    grid-row-gap: 40px; /* Vertical gap between rows */
 }
 
 .gallery img {
 	width: 100%;
-
+	width: 310px;
+	height: 413px;
 }
 
 #contact {
@@ -268,6 +273,7 @@ li:hover {
 #contact input,
 .filter-btn {
 	height: 50px;
+	width: 379px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -279,6 +285,7 @@ li:hover {
 
 #contact textarea {
 	border: none;
+	width: 379px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
@@ -320,18 +327,20 @@ input:hover {
 }
 
 /* Filtres */
+
 .filters {
 	align-items: center;
 	display: flex;
-	gap: 15px;
+	gap: 10px;
 	justify-content: center;
-	margin-bottom: 60px;
-	margin-top: 20px;
+	margin-bottom: 50px;
+	margin-top: 50px;
 }
 
 .filtersNone {
 	border: 1px solid #1D6154;
 	border-radius: 60px;
+	background-color: transparent;
 	color: #1D6154;
 	cursor: pointer;
 	font-family: 'Syne', sans-serif;

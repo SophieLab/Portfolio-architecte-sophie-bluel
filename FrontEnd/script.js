@@ -52,7 +52,7 @@ function initializeFilters() {
                 button.setAttribute('data-filter', category.name);
                 
                 button.addEventListener('click', function() {
-                    document.querySelectorAll('.filters button').forEach(btn => {
+                    document.querySelectorAll('.filters-button').forEach(btn => {
                         btn.classList.remove('filterActive'); // Retire la classe active des autres boutons
                     });
                     this.classList.add('filterActive'); // Ajoute la classe active au bouton cliqué
