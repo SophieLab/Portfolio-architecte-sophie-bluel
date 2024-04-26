@@ -371,6 +371,7 @@ input:hover {
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 #contact input {
