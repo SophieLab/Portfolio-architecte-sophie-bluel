@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Récupère le jeton d'autorisation pour les appels API nécessitant une authentification
     function getAuthorization() {
-        return 'Bearer ' + localStorage.getItem('token')
+        return 'Bearer ' + sessionStorage.getItem('Token')
     }
 
     // Charge les catégories depuis l'API et met à jour le menu déroulant des catégories
@@ -26,7 +26,35 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(err => console.error('Erreur lors du chargement des catégories:', err));
     }
-
+    function fetchAndDisplayWorks(category) {
+        let url = 'http://localhost:5678/api/works';
+        fetch(url)
+            .then(response => response.json())
+            .then(works => {
+                // Filtre les travaux si une catégorie spécifique est choisie
+                const filteredWorks = category !== "Tous" ? works.filter(work => work.category.name === category) : works;
+                displayWorks(filteredWorks);
+            })
+            .catch(error => console.error('Erreur lors de la récupération des travaux:', error));
+    }
+    
+    // Afficher les travaux dans la galerie
+    function displayWorks(works) {
+        imagesContainer.innerHTML = ''; // Vide la galerie avant d'ajouter de nouveaux éléments
+        works.forEach(work => {
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            img.src = work.imageUrl;
+            img.alt = work.title;
+    
+            const figcaption = document.createElement('figcaption');
+            figcaption.textContent = work.title;
+    
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+            imagesContainer.appendChild(figure);
+        });
+    }
     // Charge les œuvres depuis l'API et les affiche dans la galerie
     function loadWorks() {
         fetch('http://localhost:5678/api/works')
@@ -65,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(() => {
                 event.target.closest('figure').remove();
+                fetchAndDisplayWorks("Tous")
                 alert("Votre photo a été supprimée avec succès.");
             })
             .catch((error) => {

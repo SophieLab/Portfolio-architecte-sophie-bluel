@@ -146,7 +146,9 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
-
+.header-with-bar {
+    padding-top: 48px; /* ou margin-top selon votre structure actuelle */
+}
 section {
 	margin: 50px 0
 }
@@ -245,7 +247,6 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-	width: 310px;
 	height: 413px;
 }
 
@@ -478,20 +479,18 @@ a {
 /* Barre édition */
 
 .bar-edition {
-
-    display: flex;
+    display: none; /* Start it off as not displayed */
     background-color: black;
     color: white;
     width: 100%;
-	height: 59px;
+    height: 48px; /* Updated from 59px to meet the requested additional height */
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    margin: auto;
     position: absolute;
     top: 0;
     left: 0;
-
+    z-index: 10; /* Ensures it's above other content */
 }
 
 
