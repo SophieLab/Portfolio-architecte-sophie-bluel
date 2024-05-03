@@ -1,32 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("mainHeader");
     const loginLink = document.querySelector(".login-link");
     const logoutLink = document.querySelector(".logout-link");
-    const category = document.querySelector(".category");
-    const buttonModifier = document.querySelector(".button-modification");
-    const barEdition = document.querySelector("#logged");
+    const barEdition = document.querySelector("#bar");
+    const buttonModification = document.getElementById("button-modification"); 
 
+    // Récupération de l'état de connexion depuis sessionStorage
     const isConnected = sessionStorage.getItem("isConnected");
 
+    // Mise à jour de l'interface en fonction de l'état de connexion
     if (isConnected === "true") {
-        loginLink.style.display = "none";
-        logoutLink.style.display = "block";
-        if (category) category.style.display = "none";
-        if (buttonModifier) buttonModifier.style.display = "block";
-        if (barEdition) barEdition.style.display = "flex";
+        loginLink.style.display = "none"; 
+        logoutLink.style.display = "block"; // Affiche le lien de déconnexion
+        barEdition.style.display = "block"; // Affiche la barre d'édition
+        buttonModification.style.display = "block"; // Affiche le bouton modifier
+        header.classList.add("header-with-bar"); // Ajoute un padding-top au header
     } else {
-        loginLink.style.display = "block";
-        logoutLink.style.display = "none";
-        if (category) category.style.display = "block"; // Assurez-vous que c'est la logique désirée pour 'category'.
-        if (buttonModifier) buttonModifier.style.display = "none";
-        if (barEdition) barEdition.style.display = "none";
+        loginLink.style.display = "block"; // Affiche le lien de connexion
+        logoutLink.style.display = "none"; // Cache le lien de déconnexion
+        barEdition.style.display = "none"; // Cache la barre d'édition
+        buttonModification.style.display = "none"; // Cache le bouton modifier
+        header.classList.remove("header-with-bar"); r
     }
 
-    // Assurez-vous que logoutLink existe avant d'ajouter un écouteur d'événement
+    // Gestion du clic sur le lien de déconnexion
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
             e.preventDefault();
+            // Suppression des données de session
             sessionStorage.removeItem("isConnected");
-            sessionStorage.removeItem("Token"); 
+            sessionStorage.removeItem("Token");
+            // Redirection vers la page d'accueil
             window.location.replace("index.html");
         });
     } else {

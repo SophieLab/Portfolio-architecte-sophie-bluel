@@ -1,67 +1,73 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("Document loaded. Initializing app...");
     initApp();
 
-    // Fonction pour initialiser l'application
     function initApp() {
+        console.log("Initializing application...");
         loadWorks();
         loadCategories();
         attachEventListeners();
     }
 
-    // Récupère le jeton d'autorisation pour les appels API nécessitant une authentification
     function getAuthorization() {
-        return 'Bearer ' + sessionStorage.getItem('Token')
+        console.log("Getting authorization token...");
+        return 'Bearer ' + sessionStorage.getItem('Token');
     }
 
-    // Charge les catégories depuis l'API et met à jour le menu déroulant des catégories
     function loadCategories() {
+        console.log("Loading categories...");
         fetch('http://localhost:5678/api/categories')
             .then(response => response.json())
             .then(categories => {
+                console.log("Categories loaded:", categories);
                 const select = document.getElementById('photoCategory');
                 categories.forEach(cat => {
                     const option = new Option(cat.name, cat.id);
                     select.appendChild(option);
                 });
             })
-            .catch(err => console.error('Erreur lors du chargement des catégories:', err));
+            .catch(err => console.error('Error loading categories:', err));
     }
-    function fetchAndDisplayWorks(category) {
-        let url = 'http://localhost:5678/api/works';
-        fetch(url)
+
+    function fetchAndDisplayWorks(category = "Tous") {
+        console.log(`Fetching works for category: ${category}`);
+        fetch('http://localhost:5678/api/works')
             .then(response => response.json())
             .then(works => {
-                // Filtre les travaux si une catégorie spécifique est choisie
+                console.log("Works fetched:", works);
                 const filteredWorks = category !== "Tous" ? works.filter(work => work.category.name === category) : works;
                 displayWorks(filteredWorks);
             })
-            .catch(error => console.error('Erreur lors de la récupération des travaux:', error));
+            .catch(error => console.error('Error fetching works:', error));
     }
     
-    // Afficher les travaux dans la galerie
     function displayWorks(works) {
-        imagesContainer.innerHTML = ''; // Vide la galerie avant d'ajouter de nouveaux éléments
+        console.log("Displaying works:", works);
+        const imagesContainer = document.getElementById('imagesContainer');
+        imagesContainer.innerHTML = '';
         works.forEach(work => {
             const figure = document.createElement('figure');
             const img = document.createElement('img');
             img.src = work.imageUrl;
             img.alt = work.title;
-    
+
             const figcaption = document.createElement('figcaption');
             figcaption.textContent = work.title;
-    
+
             figure.appendChild(img);
             figure.appendChild(figcaption);
             imagesContainer.appendChild(figure);
         });
     }
-    // Charge les œuvres depuis l'API et les affiche dans la galerie
+
     function loadWorks() {
+        console.log("Loading works from API...");
         fetch('http://localhost:5678/api/works')
             .then(response => response.json())
             .then(works => {
+                console.log("Works loaded:", works);
                 const galleryContainer = document.getElementById('galerie-modale');
-                galleryContainer.innerHTML = ''; // Efface les œuvres précédentes
+                galleryContainer.innerHTML = '';
                 works.forEach(work => {
                     const figure = document.createElement('figure');
                     figure.className = 'figure-img';
@@ -72,17 +78,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     const deleteBtn = document.createElement('button');
                     deleteBtn.className = 'delete-btn';
-                    deleteBtn.innerHTML = '<img src="assets/icons/trash-icon.svg" alt="Supprimer">';
-                    deleteBtn.addEventListener('click', (event) => deleteWork(event, work.id));
+                    deleteBtn.innerHTML = '<img src="assets/icons/trash-icon.svg" alt="Delete">';
+                    deleteBtn.onclick = (event) => deleteWork(event, work.id);
                     figure.appendChild(deleteBtn);
                     galleryContainer.appendChild(figure);
                 });
             })
-            .catch(err => console.error('Erreur lors du chargement des œuvres:', err));
+            .catch(err => console.error('Error loading works:', err));
     }
 
-    // Fonction pour supprimer une œuvre spécifique
     function deleteWork(event, id) {
+        console.log(`Deleting work with ID: ${id}`);
         fetch('http://localhost:5678/api/works/' + id, {
             method: "DELETE",
             headers: {
@@ -92,42 +98,50 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(() => {
+                console.log("Work deleted successfully, ID:", id);
                 event.target.closest('figure').remove();
-                fetchAndDisplayWorks("Tous")
+                fetchAndDisplayWorks("Tous");
                 alert("Votre photo a été supprimée avec succès.");
             })
             .catch((error) => {
-                console.error('Erreur:', error);
+                console.error('Error deleting work:', error);
                 alert("Erreur lors de la suppression de la photo.");
             });
     }
 
     function attachEventListeners() {
-        document.getElementById('imageUploadContainer').addEventListener('click', () => {
+        console.log("Attaching event listeners...");
+        document.getElementById('imageUploadContainer').onclick = () => {
+            console.log("Image upload container clicked...");
             document.getElementById('fileInput').click();
+        };
 
-        });
+        document.getElementById('fileInput').onchange = handleFileSelect;
 
-        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+        document.getElementById('button-modification').onclick = () => {
+            console.log("Modification button clicked...");
+            openModal('modaleGalerie');
+        };
+        document.getElementById('AjoutPhoto').onclick = () => {
+            console.log("Add photo button clicked...");
+            openModal('modaleAjoutPhoto');
+        };
 
-        document.getElementById('button-modification').addEventListener('click', () => openModal('modaleGalerie'));
-        document.getElementById('AjoutPhoto').addEventListener('click', () => openModal('modaleAjoutPhoto'));
-
-        // Fermeture des modales
         document.querySelectorAll('.close').forEach(btn => {
-            btn.addEventListener('click', closeModal);
+            btn.onclick = closeModal;
         });
 
-        document.getElementById('retourGalerie').addEventListener('click', () => {
+        document.getElementById('retourGalerie').onclick = () => {
+            console.log("Returning to gallery...");
             closeModal();
             openModal('modaleGalerie');
-        });
+        };
 
-        document.getElementById('Valider').addEventListener('click', closeModal);
+        document.getElementById('Valider').onclick = closeModal;
     }
 
-    // Gère la sélection de fichiers
     function handleFileSelect(event) {
+        console.log("File selected:", event.target.files[0]);
         const file = event.target.files[0];
         const iconImage = document.querySelector('.icon-image');
         const uploadLabel = document.querySelector('.image-upload-label');
@@ -136,8 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
+                console.log("File loaded, displaying preview...");
                 iconImage.src = e.target.result;
-                iconImage.alt = 'Aperçu de la photo téléchargée';
+                iconImage.alt = 'Preview of uploaded photo';
                 uploadLabel.style.display = 'none';
                 formatInfo.style.display = 'none';
             };
@@ -145,8 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Ouvre une modale spécifiée par son ID
     function openModal(modalId) {
+        console.log(`Opening modal: ${modalId}`);
         closeModal();
         const modal = document.getElementById(modalId);
         const overlay = document.getElementById('overlay');
@@ -154,8 +169,8 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.style.display = 'block';
     }
 
-    // Ferme toutes les modales ouvertes
     function closeModal() {
+        console.log("Closing all modals...");
         document.querySelectorAll('.modale').forEach(modal => {
             modal.style.display = 'none';
         });
