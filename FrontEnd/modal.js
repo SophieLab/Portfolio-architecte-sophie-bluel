@@ -1,55 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const overlayHTML = `
-    <div id="overlay" style="display: none;">
-        <div id="modaleGalerie" class="modale" style="display: none;">
-            <div class="modale-content">
-                <div class="modale-header">
-                    <p class="modale-titre">Galerie photo</p>
-                    <span class="close" data-modale="modaleGalerie">&times;</span>
-                </div>
-                <div id="galerie-modale">
-                    <!-- Contenu à charger ici -->
-                </div>
-                <button id="AjoutPhoto">Ajouter une photo</button>
-            </div>
-        </div>
-    </div>
-`;
 
-const modaleAjoutPhotoHTML = `
-    <div id="modaleAjoutPhoto" class="modale">
-        <div class="modale-content">
-            <div class="modale-header">
-                <span id="retourGalerie" class="retour-fleche">&#x2190;</span>
-                <p class="modale-titre">Ajout photo</p>
-                <span class="close">&times;</span>
-            </div>
-            <!-- Upload d'image -->
-            <div id="imageUploadContainer" class="image-upload-container">
-                <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
-                <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
-                <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;"
-                    onchange="previewImage();">
-                <div id="previewImage" class="hide"></div>
-                <span class="format-info">jpg, png : 4mo max</span>
-            </div>
-            <!-- Titre de la photo -->
-            <div class="form-group">
-                <span class="input-title">Titre de la photo</span>
-                <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
-            </div>
-            <!-- Catégorie de la photo -->
-            <div class="form-group">
-                <span class="SelectInput-title">Catégorie</span>
-                <select id="photoCategory" class="photo-category">
-                    <!-- Options de catégorie ici -->
-                </select>
-            </div>
-            <!-- Bouton d'ajout de la photo -->
-            <button id="Valider">Ajouter photo</button>
-        </div>
-    </div>
-`;
     console.log("Document loaded. Initializing app...");
     initApp();
 
@@ -91,7 +41,7 @@ const modaleAjoutPhotoHTML = `
             })
             .catch(error => console.error('Error fetching works:', error));
     }
-    
+
     function displayWorks(works) {
         console.log("Displaying works:", works);
         const imagesContainer = document.getElementById('imagesContainer');
@@ -170,10 +120,12 @@ const modaleAjoutPhotoHTML = `
         document.getElementById('fileInput').onchange = handleFileSelect;
 
         document.getElementById('button-modification').onclick = () => {
+
             console.log("Modification button clicked...");
             openModal('modaleGalerie');
         };
         document.getElementById('AjoutPhoto').onclick = () => {
+
             console.log("Add photo button clicked...");
             openModal('modaleAjoutPhoto');
         };
@@ -188,7 +140,37 @@ const modaleAjoutPhotoHTML = `
             openModal('modaleGalerie');
         };
 
-        document.getElementById('Valider').onclick = closeModal;
+        document.getElementById('Valider').onclick = () => {
+            //closeModal
+            fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': getAuthorization(),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image: "coucou.png",
+                    title: "coucou",
+                    category: 1
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errData => {
+                            throw new Error(errData.error || 'Login failed');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        };
+
     }
 
     function handleFileSelect(event) {
