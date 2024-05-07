@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     console.log("Document loaded. Initializing app...");
     initApp();
 
@@ -21,13 +22,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(categories => {
                 console.log("Categories loaded:", categories);
                 const select = document.getElementById('photoCategory');
-                select.innerHTML = '';
-                categories.forEach(category => {
-                    const option = new Option(category.name, category.id);
+                select.innerHTML = ''; // Clear existing options
+                categories.forEach(cat => {
+                    const option = new Option(cat.name, cat.id);
                     select.appendChild(option);
                 });
             })
-            .catch(error => console.error('Error loading categories:', error));
+            .catch(err => console.error('Error loading categories:', err));
     }
 
     function loadWorks() {
@@ -38,46 +39,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Works loaded:", works);
                 displayWorks(works);
             })
-            .catch(error => console.error('Error loading works:', error));
+            .catch(err => console.error('Error loading works:', err));
     }
 
     function displayWorks(works) {
-        console.log("Displaying works...");
+        console.log("Displaying works:", works);
         const galleryContainer = document.getElementById('galerie-modale');
         galleryContainer.innerHTML = '';
         works.forEach(work => {
             const figure = document.createElement('figure');
             figure.className = 'figure-img';
-            const img = document.createElement('img');
-            img.src = work.imageUrl;
-            img.alt = work.title;
-            figure.appendChild(img);
+            const imgElement = document.createElement('img');
+            imgElement.src = work.imageUrl;
+            imgElement.alt = work.title;
+            figure.appendChild(imgElement);
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
             deleteBtn.innerHTML = '<img src="assets/icons/trash-icon.svg" alt="Delete">';
-            deleteBtn.onclick = () => deleteWork(work.id);
+            deleteBtn.onclick = (event) => deleteWork(event, work.id);
             figure.appendChild(deleteBtn);
 
             galleryContainer.appendChild(figure);
         });
     }
 
-    function deleteWork(id) {
+    function deleteWork(event, id) {
         console.log(`Deleting work with ID: ${id}`);
-        fetch(`http://localhost:5678/api/works/${id}`, {
+        fetch('http://localhost:5678/api/works/' + id, {
             method: "DELETE",
             headers: {
+                'Accept': 'application/json',
                 'Authorization': getAuthorization(),
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         })
             .then(() => {
                 console.log("Work deleted successfully, ID:", id);
-                loadWorks();
-                alert("Photo supprimée avec succès.");
+                event.target.closest('figure').remove();
+                alert("Votre photo a été supprimée avec succès.");
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error deleting work:', error);
                 alert("Erreur lors de la suppression de la photo.");
             });
@@ -85,154 +87,98 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function attachEventListeners() {
         console.log("Attaching event listeners...");
-        const imageUploadContainer = document.getElementById('imageUploadContainer');
-        if (imageUploadContainer) {
-            imageUploadContainer.addEventListener('click', () => {
-                document.getElementById('fileInput').click();
-            });
-        }
+        document.getElementById('imageUploadContainer').onclick = () => {
+            document.getElementById('fileInput').click();
+        };
 
-        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+        document.getElementById('fileInput').onchange = handleFileSelect;
 
-        document.getElementById('button-modification').addEventListener('click', () => openModal('modaleGalerie'));
-        document.getElementById('AjoutPhoto').addEventListener('click', () => openModal('modaleAjoutPhoto'));
+        document.getElementById('button-modification').onclick = () => {
+            openModal('modaleGalerie');
+        };
+
+        document.getElementById('AjoutPhoto').onclick = () => {
+            openModal('modaleAjoutPhoto');
+            resetUploadForm(); // Assuming a function to reset the form
+        };
 
         document.querySelectorAll('.close').forEach(btn => {
-            btn.addEventListener('click', closeModal);
+            btn.onclick = closeModal;
         });
 
-        document.getElementById('retourGalerie').addEventListener('click', () => {
+        document.getElementById('retourGalerie').onclick = () => {
             closeModal();
             openModal('modaleGalerie');
-        });
+        };
 
-        document.getElementById('Valider').addEventListener('click', postNewWork);
-
-        // Add event listener for image input change
-        const imageInput = document.querySelector("#fileInput");
-        imageInput.addEventListener("change", checkImg);
+        document.getElementById('Valider').onclick = () => {
+            uploadNewWork();
+        };
     }
 
     function handleFileSelect(event) {
-        console.log("File selected:", event.target.files[0]);
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const preview = document.querySelector('.icon-image');
-                preview.src = e.target.result;
-                preview.alt = 'Preview of uploaded photo';
-                document.querySelector('.image-upload-label').style.display = 'none';
-                document.querySelector('.format-info').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function postNewWork() {
-        const imageBase64 = document.querySelector('.icon-image').src;
-        const title = document.getElementById('photoTitle').value;
-        const category = document.getElementById('photoCategory').value;
-        console.log("Posting new work...");
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                'Authorization': getAuthorization(),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ imageUrl: imageBase64, title: title, category: category })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("New work added:", data);
-                closeModal();
-                loadWorks();
-            })
-            .catch(error => {
-                console.error('Error posting new work:', error);
-                alert("Erreur lors de l'ajout de la photo.");
-            });
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImage = document.querySelector('.icon-image');
+            previewImage.src = e.target.result;
+            previewImage.alt = 'Preview of uploaded photo';
+        };
+        reader.readAsDataURL(file);
     }
 
     function openModal(modalId) {
-        console.log(`Opening modal: ${modalId}`);
         closeModal();
-        document.getElementById(modalId).style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
+        const modal = document.getElementById(modalId);
+        const overlay = document.getElementById('overlay');
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
     }
 
     function closeModal() {
-        console.log("Closing all modals...");
         document.querySelectorAll('.modale').forEach(modal => {
             modal.style.display = 'none';
         });
         document.getElementById('overlay').style.display = 'none';
     }
 
-    // Image validation functions
-    const msgSuccesErrorSlot = document.querySelector(".msg-add-photo-success-error");
-    const msgBadSizeFormatImg = document.querySelector(".msg-bad-size-format-img");
+    function resetUploadForm() {
+        const form = document.getElementById('uploadForm');
+        form.reset();
+        const previewImage = document.querySelector('.icon-image');
+        previewImage.src = '';
+        previewImage.alt = '';
+    }
 
-    function checkImg() {
-        const selectedImage = imageInput.files[0];
+    function uploadNewWork() {
+        const fileInput = document.getElementById('fileInput');
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+        formData.append('title', "coucou");
+        formData.append('category', document.getElementById('photoCategory').value);
 
-        if (selectedImage) {
-            if (selectedImage.size > 4 * 1024 * 1024) {
-                resetForm();
-                msgBadSize();
-                return;
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                'Authorization': getAuthorization(),
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.error || 'Failed to upload new work');
+                });
             }
-
-            const allowedFormats = ["image/jpeg", "image/png"];
-            if (!allowedFormats.includes(selectedImage.type)) {
-                resetForm();
-                msgBadFormat();
-                return;
-            }
-        }
-    }
-
-    function msgAddSuccessF() {
-        msgSuccesErrorSlot.textContent = "Projet ajouté avec succès !";
-        msgSuccesErrorSlot.style.display = "block";
-
-        setTimeout(() => {
-            msgSuccesErrorSlot.textContent = "";
-            msgSuccesErrorSlot.style.display = "none";
-        }, 3000);
-    }
-
-    function msgAddErrorF() {
-        msgSuccesErrorSlot.textContent = "Un problème est survenu, veuillez recommencer.";
-        msgSuccesErrorSlot.style.display = "block";
-
-        setTimeout(() => {
-            msgSuccesErrorSlot.textContent = "";
-            msgSuccesErrorSlot.style.display = "none";
-        }, 3000);
-    }
-
-    function msgBadSize() {
-        msgBadSizeFormatImg.textContent = "L'image dépasse la limite de taille de 4 Mo !";
-
-        setTimeout(() => {
-            msgBadSizeFormatImg.textContent = "";
-        }, 3000);
-    }
-
-    function msgBadFormat() {
-        msgBadSizeFormatImg.textContent = "Format de fichier non supporté. Utilisez JPEG ou PNG.";
-
-        setTimeout(() => {
-            msgBadSizeFormatImg.textContent = "";
-        }, 3000);
-    }
-
-    function resetForm() {
-        document.getElementById('fileInput').value = '';
-        document.querySelector('.icon-image').src = '';
-        document.querySelector('.icon-image').alt = 'Image preview';
-        document.querySelector('.image-upload-label').style.display = 'block';
-        document.querySelector('.format-info').style.display = 'block';
+            return response.json();
+        })
+        .then(data => {
+            console.log("Work uploaded successfully:", data);
+            closeModal();
+            loadWorks(); // Reload works to display the newly added one
+        })
+        .catch(error => {
+            console.error('Error uploading new work:', error);
+        });
     }
 });
