@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("Document loaded. Initializing app...");
     initApp();
 
@@ -72,22 +72,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json'
             }
         })
-        .then(() => {
-            console.log("Work deleted successfully, ID:", id);
-            loadWorks();
-            alert("Photo supprimée avec succès.");
-        })
-        .catch(error => {
-            console.error('Error deleting work:', error);
-            alert("Erreur lors de la suppression de la photo.");
-        });
+            .then(() => {
+                console.log("Work deleted successfully, ID:", id);
+                loadWorks();
+                alert("Photo supprimée avec succès.");
+            })
+            .catch(error => {
+                console.error('Error deleting work:', error);
+                alert("Erreur lors de la suppression de la photo.");
+            });
     }
 
     function attachEventListeners() {
         console.log("Attaching event listeners...");
-        document.getElementById('imageUploadContainer').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
-        });
+        const imageUploadContainer = document.getElementById('imageUploadContainer');
+        if (imageUploadContainer) {
+            imageUploadContainer.addEventListener('click', () => {
+                document.getElementById('fileInput').click();
+            });
+        }
 
         document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 
@@ -104,6 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         document.getElementById('Valider').addEventListener('click', postNewWork);
+
+        // Add event listener for image input change
+        const imageInput = document.querySelector("#fileInput");
+        imageInput.addEventListener("change", checkImg);
     }
 
     function handleFileSelect(event) {
@@ -111,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const preview = document.querySelector('.icon-image');
                 preview.src = e.target.result;
                 preview.alt = 'Preview of uploaded photo';
@@ -135,16 +142,16 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ imageUrl: imageBase64, title: title, category: category })
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log("New work added:", data);
-            closeModal();
-            loadWorks();
-        })
-        .catch(error => {
-            console.error('Error posting new work:', error);
-            alert("Erreur lors de l'ajout de la photo.");
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log("New work added:", data);
+                closeModal();
+                loadWorks();
+            })
+            .catch(error => {
+                console.error('Error posting new work:', error);
+                alert("Erreur lors de l'ajout de la photo.");
+            });
     }
 
     function openModal(modalId) {
@@ -160,5 +167,72 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = 'none';
         });
         document.getElementById('overlay').style.display = 'none';
+    }
+
+    // Image validation functions
+    const msgSuccesErrorSlot = document.querySelector(".msg-add-photo-success-error");
+    const msgBadSizeFormatImg = document.querySelector(".msg-bad-size-format-img");
+
+    function checkImg() {
+        const selectedImage = imageInput.files[0];
+
+        if (selectedImage) {
+            if (selectedImage.size > 4 * 1024 * 1024) {
+                resetForm();
+                msgBadSize();
+                return;
+            }
+
+            const allowedFormats = ["image/jpeg", "image/png"];
+            if (!allowedFormats.includes(selectedImage.type)) {
+                resetForm();
+                msgBadFormat();
+                return;
+            }
+        }
+    }
+
+    function msgAddSuccessF() {
+        msgSuccesErrorSlot.textContent = "Projet ajouté avec succès !";
+        msgSuccesErrorSlot.style.display = "block";
+
+        setTimeout(() => {
+            msgSuccesErrorSlot.textContent = "";
+            msgSuccesErrorSlot.style.display = "none";
+        }, 3000);
+    }
+
+    function msgAddErrorF() {
+        msgSuccesErrorSlot.textContent = "Un problème est survenu, veuillez recommencer.";
+        msgSuccesErrorSlot.style.display = "block";
+
+        setTimeout(() => {
+            msgSuccesErrorSlot.textContent = "";
+            msgSuccesErrorSlot.style.display = "none";
+        }, 3000);
+    }
+
+    function msgBadSize() {
+        msgBadSizeFormatImg.textContent = "L'image dépasse la limite de taille de 4 Mo !";
+
+        setTimeout(() => {
+            msgBadSizeFormatImg.textContent = "";
+        }, 3000);
+    }
+
+    function msgBadFormat() {
+        msgBadSizeFormatImg.textContent = "Format de fichier non supporté. Utilisez JPEG ou PNG.";
+
+        setTimeout(() => {
+            msgBadSizeFormatImg.textContent = "";
+        }, 3000);
+    }
+
+    function resetForm() {
+        document.getElementById('fileInput').value = '';
+        document.querySelector('.icon-image').src = '';
+        document.querySelector('.icon-image').alt = 'Image preview';
+        document.querySelector('.image-upload-label').style.display = 'block';
+        document.querySelector('.format-info').style.display = 'block';
     }
 });
