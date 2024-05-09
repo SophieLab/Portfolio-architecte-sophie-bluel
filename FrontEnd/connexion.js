@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         logoutLink.style.display = "none"; // Cache le lien de déconnexion
         barEdition.style.display = "none"; // Cache la barre d'édition
         buttonModification.style.display = "none"; // Cache le bouton modifier
-        header.classList.remove("header-with-bar"); r
+        header.classList.remove("header-with-bar");
     }
 
     // Gestion du clic sur le lien de déconnexion
