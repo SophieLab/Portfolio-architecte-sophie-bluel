@@ -3,87 +3,7 @@
    License: none (public domain)
 */
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -226,7 +146,6 @@ nav li {
 
 #introduction article p {
 	width: 404px;
-	/* Définit la largeur des paragraphes à 404px */
 	color: #3D3D3D;
 	font-family: "Work Sans";
 	font-size: 14px;
@@ -244,7 +163,7 @@ nav li {
 }
 
 input {
-    padding-left: 16px; /* Ajoute un espace à gauche de 16px */
+    padding-left: 16px;
 }
 
 .portfolio-header {
@@ -338,7 +257,6 @@ footer nav ul {
 
 footer ul li {
 	margin-top: 70px;
-	/* Ajoute un margin-top au <li> */
 	color: #000;
 
 	font-family: "Work Sans";
@@ -504,7 +422,6 @@ a:hover {
 	text-decoration: none;
 }
 
-/* Styles pour les liens actifs - cette classe doit être ajoutée dynamiquement via JavaScript */
 a.active {
 	color: #000;
 	text-align: center;
@@ -545,47 +462,38 @@ a.active {
 
 
 /* Barre édition */
-
 .bar-edition {
-	display: none;
-	background-color: black;
-	color: white;
-	width: 100%;
-	height: 59px;
-	align-items: center;
-	justify-content: center;
-	font-size: 14px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 10;
+    display: flex;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 59px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
 }
 
-.bar-edition ul {
-	list-style: none;
-	padding: 0;
-	display: flex;
-	margin: 0;
-	 justify-content: center;
-            align-items: center;
-}
-
-.bar-edition li {
-	margin: 0 10px;
+.bar-edition i, .bar-edition span {
+    margin: 0 10px;
 }
 
 .bar-edition a {
-	color: white;
-	text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
 .publish-btn {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
-/* Style pour le bouton de modification */
+
+/*Bouton de modification */
 .button-modification {
 	color: black;
 	text-decoration: none;
@@ -684,7 +592,7 @@ a.active {
 	font-weight: 400;
 }
 
-/* Stylisation du conteneur d'upload d'image */
+/* Upload d'image */
 .image-upload-container {
 	width: 100px;
 	height: 100px;
