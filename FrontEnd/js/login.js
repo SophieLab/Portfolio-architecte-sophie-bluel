@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = "index.html"; 
         })
         .catch(error => {
-            errorDiv.textContent = error.message;
+            errorDiv.textContent = "Identifiants incorrects";
             errorDiv.style.display = "block";
         });
     });

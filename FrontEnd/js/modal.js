@@ -31,51 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(err => console.error('Error loading categories:', err));
     }
-    function generateHTMLModal() {
-        return `
-            <div id="overlay" style="display: none;">
-                <div id="modaleGalerie" class="modale" style="display: none;">
-                    <div class="modale-content">
-                        <div class="modale-header">
-                            <p class="modale-titre">Galerie photo</p>
-                            <span class="close" data-modale="modaleGalerie">&times;</span>
-                        </div>
-                        <div id="galerie-modale">
-                            <!-- Contenu à charger ici -->
-                        </div>
-                        <button id="AjoutPhoto">Ajouter une photo</button>
-                    </div>
-                </div>
-            </div>
-            <div id="modaleAjoutPhoto" class="modale">
-                <div class="modale-content">
-                    <div class="modale-header">
-                        <span id="retourGalerie" class="retour-fleche">&#x2190;</span>
-                        <p class="modale-titre">Ajout photo</p>
-                        <span class="close">&times;</span>
-                    </div>
-                    <div id="imageUploadContainer" class="image-upload-container">
-                        <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
-                        <label for="fileInput" class="image-upload-label">+ Ajouter photo</label>
-                        <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;" onchange="previewImage();">
-                        <div id="previewImage" class="hide"></div>
-                        <span class="format-info">jpg, png : 4mo max</span>
-                    </div>
-                    <div class="form-group">
-                        <span class="input-title">Titre de la photo</span>
-                        <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
-                    </div>
-                    <div class="form-group">
-                        <span class="SelectInput-title">Catégorie</span>
-                        <select id="photoCategory" class="photo-category">
-                            <!-- Options de catégorie ici -->
-                        </select>
-                    </div>
-                    <button id="Valider">Ajouter photo</button>
-                </div>
-            </div>
-        `;
-    }
+
     function loadWorks() {
         console.log("Loading works from API...");
         fetch('http://localhost:5678/api/works')
@@ -191,20 +147,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function resetUploadForm() {
-        const form = document.getElementById('uploadForm');
-        form.reset();
         const previewImage = document.querySelector('.icon-image');
         previewImage.src = '';
         previewImage.alt = '';
+        const imageTitle = document.getElementById('photoTitle');
+        imageTitle.value ='';
     }
 
     function uploadNewWork() {
         const fileInput = document.getElementById('fileInput');
         const formData = new FormData();
 
-        formData.append("image", image);
-        formData.append("title", title);
-        formData.append("category", categorySelectId);
+        formData.append('image', fileInput.files[0]);
+        formData.append('title', document.getElementById('photoTitle').value);
+        formData.append('category', document.getElementById('photoCategory').value);
+
 
         fetch("http://localhost:5678/api/works", {
             method: "POST",
@@ -228,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetchAndDisplayWorks('Tous');
             })
             .catch(error => {
+                document.getElementById("modal-error").innerText="Champs incorretces";
                 console.error('Error uploading new work:', error);
             });
     }
