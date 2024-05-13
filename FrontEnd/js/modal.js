@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(categories => {
                 console.log("Categories loaded:", categories);
                 const select = document.getElementById('photoCategory');
-                select.innerHTML = ''; 
+                select.innerHTML = ''; // Clear existing options
+                // Ajouter une option par défaut
+                const defaultOption = new Option("Sélectionnez une catégorie", "");
+                select.appendChild(defaultOption);
+                // Ajouter les autres options
                 categories.forEach(cat => {
                     const option = new Option(cat.name, cat.id);
                     select.appendChild(option);
@@ -31,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(err => console.error('Error loading categories:', err));
     }
+    
 
     function loadWorks() {
         console.log("Loading works from API...");
@@ -148,11 +153,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function resetUploadForm() {
         const previewImage = document.querySelector('.icon-image');
-        previewImage.src = '';
-        previewImage.alt = '';
+        previewImage.src = 'assets/icons/picture.svg'; // Remettre l'icône d'origine
+        previewImage.alt = 'Icône image';
+    
         const imageTitle = document.getElementById('photoTitle');
-        imageTitle.value ='';
+        imageTitle.value = '';
+    
+        const photoCategory = document.getElementById('photoCategory');
+        photoCategory.selectedIndex = 0; // Réinitialiser à l'option par défaut
     }
+    
 
     function uploadNewWork() {
         const fileInput = document.getElementById('fileInput');
