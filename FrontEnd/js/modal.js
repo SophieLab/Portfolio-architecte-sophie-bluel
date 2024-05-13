@@ -129,13 +129,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = function (e) {
-            const previewImage = document.querySelector('.icon-image');
-            previewImage.src = e.target.result;
-            previewImage.alt = 'Preview of uploaded photo';
+            // Créer un nouvel élément img
+            const newImg = document.createElement('img');
+            newImg.src = e.target.result;
+            newImg.alt = 'Preview of uploaded photo';
+            newImg.style.width = '100%'; // Ajustez la taille selon vos besoins
+    
+            // Sélectionnez le conteneur et effacez son contenu
+            const uploadContainer = document.getElementById('imageUploadContainer');
+            uploadContainer.innerHTML = ''; // Videz le conteneur
+    
+            // Ajoutez la nouvelle image au conteneur
+            uploadContainer.appendChild(newImg);
         };
         reader.readAsDataURL(file);
     }
-
+    
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
