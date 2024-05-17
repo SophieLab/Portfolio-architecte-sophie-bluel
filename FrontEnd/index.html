@@ -17,46 +17,50 @@
 
 <body>
 
-    <!-- Overlay et Modale Galerie Photo -->
-    <div id="overlay" style="display: none;">
-        <div id="modaleGalerie" class="modale" style="display: none;">
-            <div class="modale-content">
-                <div class="modale-header">
-                    <p class="modale-titre">Galerie photo</p>
-                    <span class="close" data-modale="modaleGalerie">&times;</span>
-                </div>
-                <div id="galerie-modale">
-                    <!-- Contenu à charger ici -->
-                </div>
-                <button id="AjoutPhoto">Ajouter une photo</button>
+<!-- Overlay et Modale Galerie Photo -->
+<div id="overlay" style="display: none;">
+    <div id="modaleGalerie" class="modale" style="display: none;">
+        <div class="modale-content">
+            <div id="close-modale">
+                <i class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
             </div>
+            <div class="modale-header">
+                <p class="modale-titre">Galerie photo</p>
+                
+            </div>
+            <div id="galerie-modale">
+                <!-- Contenu à charger ici -->
+            </div>
+            <hr>
+            <button id="AjoutPhoto">Ajouter une photo</button>
         </div>
     </div>
+</div>
 
     <!-- Modale d'ajout de photo -->
     <div id="modaleAjoutPhoto" class="modale">
         <div class="modale-content">
+            <div id="close-modale">
+                <i id="retourGalerie" class="fa-solid fa-arrow-left retour-fleche"></i>
+                <i class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
+            </div>
             <div class="modale-header">
-                <span id="retourGalerie" class="retour-fleche">&#x2190;</span>
                 <p class="modale-titre">Ajout photo</p>
-                <span class="close">&times;</span>
             </div>
             <!-- Upload d'image -->
             <div id="imageUploadContainer" class="image-upload-container">
                 <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
                 <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
-                <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;"
-                    onchange="previewImage();">
+                <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;">
                 <div id="previewImage" class="hide"></div>
                 <span class="format-info">jpg, png : 4mo max</span>
             </div>
-
+    
             <!-- Titre de la photo -->
             <div class="form-group">
                 <span class="input-title">Titre de la photo</span>
                 <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
             </div>
-
             <!-- Catégorie de la photo -->
             <div class="form-group">
                 <span class="SelectInput-title">Catégorie</span>
@@ -64,19 +68,24 @@
                     <!-- Options de catégorie ici -->
                 </select>
             </div>
-
+    
             <!-- message en cas d'erreur -->
             <div id="modal-error"></div>
-
+            <hr>
+    
             <!-- Bouton d'ajout de la photo -->
-            <button id="Valider">Ajouter photo</button>
+            <button id="Valider" type="button" disabled>Valider</button>
         </div>
     </div>
+    
 
     <!-- Bar edition -->
     <div id="bar" class="bar-edition">
-        <i class="fa-solid fa-pen-to-square"></i>Mode édition
-    </div>
+        <p>
+            <i class="fa-solid fa-pen-to-square" alt="Icone édition"></i>
+            Mode édition
+        </p>
+        </div>
 
     <header id="mainHeader">
         <h1>Sophie Bluel <span>Architecte d'intérieur</span><a href="./index.html"></a></h1>

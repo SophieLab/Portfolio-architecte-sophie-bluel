@@ -23,11 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(categories => {
                 console.log("Categories loaded:", categories);
                 const select = document.getElementById('photoCategory');
-                select.innerHTML = ''; // Clear existing options
-                // Ajouter une option par défaut
+                select.innerHTML = '';
                 const defaultOption = new Option("Sélectionnez une catégorie", "");
                 select.appendChild(defaultOption);
-                // Ajouter les autres options
                 categories.forEach(cat => {
                     const option = new Option(cat.name, cat.id);
                     select.appendChild(option);
@@ -133,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const newImg = document.createElement('img');
             newImg.src = e.target.result;
             newImg.alt = 'Preview of uploaded photo';
-            newImg.style.width = '100%'; // Ajustez la taille selon vos besoins
+            newImg.style.width = '100%';
     
             // Sélectionnez le conteneur et effacez son contenu
             const uploadContainer = document.getElementById('imageUploadContainer');
@@ -144,7 +142,20 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         reader.readAsDataURL(file);
     }
-    
+   // function checkFormValidity() {
+       // const fileInput = document.getElementById('fileInput');
+       // const titleInput = document.getElementById('photoTitle');
+       // const categorySelect = document.getElementById('photoCategory');
+       // const validerButton = document.getElementById('Valider');
+
+        //if (!fileInput.files[0] || titleInput.value.trim() === '' || categorySelect.value === '') {
+           // validerButton.disabled = true;
+            //validerButton.style.opacity = 0.5; y
+        //} else {
+          //  validerButton.disabled = false;
+            //validerButton.style.opacity = 1; 
+       // }
+   // }
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -200,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log("Work uploaded successfully:", data);
                 closeModal();
-                loadWorks(); // Reload works to display the newly added one
+                loadWorks();
                 fetchAndDisplayWorks('Tous');
             })
             .catch(error => {
