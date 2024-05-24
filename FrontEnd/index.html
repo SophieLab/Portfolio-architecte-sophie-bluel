@@ -31,52 +31,58 @@
             <div id="galerie-modale">
                 <!-- Contenu à charger ici -->
             </div>
-            <hr>
+            <span class="spacer"> </span>
             <button id="AjoutPhoto">Ajouter une photo</button>
         </div>
     </div>
 </div>
 
     <!-- Modale d'ajout de photo -->
-    <div id="modaleAjoutPhoto" class="modale">
-        <div class="modale-content">
-            <div id="close-modale">
-                <i id="retourGalerie" class="fa-solid fa-arrow-left retour-fleche"></i>
-                <i class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
-            </div>
-            <div class="modale-header">
-                <p class="modale-titre">Ajout photo</p>
-            </div>
-            <!-- Upload d'image -->
-            <div id="imageUploadContainer" class="image-upload-container">
-                <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
-                <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
-                <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;">
-                <div id="previewImage" class="hide"></div>
-                <span class="format-info">jpg, png : 4mo max</span>
-            </div>
-    
-            <!-- Titre de la photo -->
-            <div class="form-group">
-                <span class="input-title">Titre de la photo</span>
-                <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
-            </div>
-            <!-- Catégorie de la photo -->
-            <div class="form-group">
-                <span class="SelectInput-title">Catégorie</span>
-                <select id="photoCategory" class="photo-category">
-                    <!-- Options de catégorie ici -->
-                </select>
-            </div>
-    
-            <!-- message en cas d'erreur -->
-            <div id="modal-error"></div>
-            <hr>
-    
-            <!-- Bouton d'ajout de la photo -->
-            <button id="Valider" type="button" disabled>Valider</button>
+<div id="modaleAjoutPhoto" class="modale">
+    <div class="modale-content">
+
+        <!-- Flèche de retour et icône de fermeture -->
+        <div id="retour-close-modale">
+            <i id="retourGalerie" class="fa-solid fa-arrow-left retour-fleche"></i>
+            <i id="close-modale" class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
         </div>
+
+        <div class="modale-header">
+            <p class="modale-titre">Ajout photo</p>
+        </div>
+        <!-- Upload d'image -->
+        <div id="imageUploadContainer" class="image-upload-container">
+            <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
+            <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
+            <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;">
+            <div id="previewImage" class="hide"></div>
+            <span class="format-info">jpg, png : 4mo max</span>
+        </div>
+
+        <!-- Titre de la photo -->
+        <div class="form-group">
+            <span class="input-title">Titre de la photo</span>
+            <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
+        </div>
+        <!-- Catégorie de la photo -->
+        <div class="form-group">
+            <span class="SelectInput-title">Catégorie</span>
+            <select id="photoCategory" class="photo-category">
+              <!-- Options de catégorie ici -->
+            </select>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+
+        <!-- message en cas d'erreur -->
+        <div id="modal-error"></div>
+        <span class="spacer"> </span>
+
+        <!-- Bouton d'ajout de la photo -->
+        <button id="Valider" type="button">Valider</button>
     </div>
+</div>
+
+
     
 
     <!-- Bar edition -->

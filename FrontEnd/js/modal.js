@@ -1,11 +1,11 @@
 import { fetchAndDisplayWorks } from "./display-works.mjs";
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Document loaded. Initializing app...");
+
+    checkFormValidity();
     initApp();
 
     function initApp() {
-        console.log("Initializing application...");
         loadWorks();
         loadCategories();
         attachEventListeners();
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(err => console.error('Error loading categories:', err));
     }
-    
+
 
     function loadWorks() {
         console.log("Loading works from API...");
@@ -93,12 +93,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function attachEventListeners() {
-        console.log("Attaching event listeners...");
-        document.getElementById('imageUploadContainer').onclick = () => {
-            document.getElementById('fileInput').click();
+
+        document.getElementById('fileInput').onchange = () => {
+            handleFileSelect();
+            checkFormValidity();
         };
 
-        document.getElementById('fileInput').onchange = handleFileSelect;
+        document.getElementById('photoTitle').onchange = () => {
+            checkFormValidity();
+        }
+
+        document.getElementById('photoCategory').onchange = () => {
+            checkFormValidity();
+        }
 
         document.getElementById('button-modification').onclick = () => {
             openModal('modaleGalerie');
@@ -106,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById('AjoutPhoto').onclick = () => {
             openModal('modaleAjoutPhoto');
-            resetUploadForm(); // Assuming a function to reset the form
+            resetUploadForm();
         };
 
         document.querySelectorAll('.close').forEach(btn => {
@@ -119,43 +126,51 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         document.getElementById('Valider').onclick = () => {
+            checkFormValidity();
             uploadNewWork();
         };
     }
 
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
+    function handleFileSelect() {
+        const file = document.getElementById('fileInput').files[0]
         const reader = new FileReader();
         reader.onload = function (e) {
-            // Créer un nouvel élément img
             const newImg = document.createElement('img');
             newImg.src = e.target.result;
             newImg.alt = 'Preview of uploaded photo';
             newImg.style.width = '100%';
-    
-            // Sélectionnez le conteneur et effacez son contenu
+
             const uploadContainer = document.getElementById('imageUploadContainer');
-            uploadContainer.innerHTML = ''; // Videz le conteneur
-    
-            // Ajoutez la nouvelle image au conteneur
+
+        
+            let addPictureButton = document.querySelector('.image-upload-label');
+            let formatInfo = document.querySelector('.format-info');
+            let iconImage = document.querySelector('.icon-image');
+
+            addPictureButton.style.display = "none";
+            formatInfo.style.display = "none";
+            iconImage.style.display = "none";
+
+            newImg.classList.add('new-image')
             uploadContainer.appendChild(newImg);
         };
         reader.readAsDataURL(file);
     }
-   // function checkFormValidity() {
-       // const fileInput = document.getElementById('fileInput');
-       // const titleInput = document.getElementById('photoTitle');
-       // const categorySelect = document.getElementById('photoCategory');
-       // const validerButton = document.getElementById('Valider');
 
-        //if (!fileInput.files[0] || titleInput.value.trim() === '' || categorySelect.value === '') {
-           // validerButton.disabled = true;
-            //validerButton.style.opacity = 0.5; y
-        //} else {
-          //  validerButton.disabled = false;
-            //validerButton.style.opacity = 1; 
-       // }
-   // }
+    function checkFormValidity() {
+        const fileInput = document.getElementById('fileInput');
+        const titleInput = document.getElementById('photoTitle');
+        const categorySelect = document.getElementById('photoCategory');
+        const validerButton = document.getElementById('Valider');
+
+
+        if (fileInput.files.length === 0 || titleInput.value === '' || categorySelect.value === '') {
+            validerButton.disabled = true;
+        } else {
+            validerButton.disabled = false;
+        }
+    }
+
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -172,22 +187,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function resetUploadForm() {
-        const previewImage = document.querySelector('.icon-image');
-        previewImage.src = 'assets/icons/picture.svg'; // Remettre l'icône d'origine
-        previewImage.alt = 'Icône image';
-    
+
+        let addPictureButton = document.querySelector('.image-upload-label');
+        let formatInfo = document.querySelector('.format-info');
+        let iconImage = document.querySelector('.icon-image');
+
+        addPictureButton.style.display = "flex";
+        formatInfo.style.display = "flex";
+        iconImage.style.display = "flex";
+
+        const uploadContainer = document.getElementById('imageUploadContainer');
+        const newImage = document.querySelector(".new-image")
+        uploadContainer.removeChild(newImage)
+
         const imageTitle = document.getElementById('photoTitle');
         imageTitle.value = '';
-    
+
         const photoCategory = document.getElementById('photoCategory');
         photoCategory.selectedIndex = 0; // Réinitialiser à l'option par défaut
     }
-    
+
 
     function uploadNewWork() {
         const fileInput = document.getElementById('fileInput');
         const formData = new FormData();
-
         formData.append('image', fileInput.files[0]);
         formData.append('title', document.getElementById('photoTitle').value);
         formData.append('category', document.getElementById('photoCategory').value);
@@ -213,9 +236,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 closeModal();
                 loadWorks();
                 fetchAndDisplayWorks('Tous');
+                fileInput.value = "";
             })
             .catch(error => {
-                document.getElementById("modal-error").innerText="Champs incorretces";
+                document.getElementById("modal-error").innerText = "Champs incorrects";
                 console.error('Error uploading new work:', error);
             });
     }

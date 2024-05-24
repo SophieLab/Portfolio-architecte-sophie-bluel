@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mise à jour de l'interface en fonction de l'état de connexion
     if (isConnected === "true") {
-        loginLink.style.display = "none"; 
+        loginLink.parentNode.style.display = "none"; 
         logoutLink.style.display = "block"; // Affiche le lien de déconnexion
         barEdition.style.display = "block"; // Affiche la barre d'édition
         buttonModification.style.display = "block"; // Affiche le bouton modifier
