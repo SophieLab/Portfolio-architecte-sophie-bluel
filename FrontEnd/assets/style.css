@@ -436,7 +436,11 @@ input:hover {
 	transform: scale(1.05);
 	border: solid 2px #1D6154;
 }
-
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 input[type="submit"],
 #AjoutPhoto,
