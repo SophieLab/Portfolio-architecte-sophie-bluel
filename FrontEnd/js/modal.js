@@ -2,6 +2,7 @@ import { fetchAndDisplayWorks } from "./display-works.mjs";
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    //de base, le formulaire est vide donc on appelle la fonction checkFormValidity au chargement de la page pour être sure que le bouton est directement en disabled
     checkFormValidity();
     initApp();
 
@@ -28,11 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 select.appendChild(defaultOption);
                 categories.forEach(cat => {
                     const option = new Option(cat.name, cat.id);
+                    option.classList.add('custom-text-color'); // Ajouter une classe à chaque option
                     select.appendChild(option);
                 });
             })
             .catch(err => console.error('Error loading categories:', err));
     }
+    
 
 
     function loadWorks() {
@@ -94,15 +97,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function attachEventListeners() {
 
+        // on s'assure que le formulaire d'envoi de la photo est bon pour changer l'état du bouton disabled
         document.getElementById('fileInput').onchange = () => {
             handleFileSelect();
             checkFormValidity();
         };
 
+        //on ajoute un écouteur d'évènement pour s'assurer que le titre de la photo contient quelque chose
         document.getElementById('photoTitle').onchange = () => {
             checkFormValidity();
         }
 
+        // on ajout un écouteur d'évènement pour s'assurer que la catégorie de la photo a été sélectionnée
         document.getElementById('photoCategory').onchange = () => {
             checkFormValidity();
         }
@@ -113,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById('AjoutPhoto').onclick = () => {
             openModal('modaleAjoutPhoto');
-            resetUploadForm();
+            resetUploadForm(); // Assuming a function to reset the form
         };
 
         document.querySelectorAll('.close').forEach(btn => {
@@ -143,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const uploadContainer = document.getElementById('imageUploadContainer');
 
         
+            //nous voulons juste que quelques éléments se cachent ;) notamment le bouton d'ajout de photo ainsi que les infos et l'illustration
             let addPictureButton = document.querySelector('.image-upload-label');
             let formatInfo = document.querySelector('.format-info');
             let iconImage = document.querySelector('.icon-image');
@@ -151,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formatInfo.style.display = "none";
             iconImage.style.display = "none";
 
+            // Ajoutez la nouvelle image au conteneur
             newImg.classList.add('new-image')
             uploadContainer.appendChild(newImg);
         };
@@ -164,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const validerButton = document.getElementById('Valider');
 
 
+        //!\ à la base tu avais mis !fileInput.files[0], on préfèrera plutot vérifier que le tableau contient tout simplement quelque chose avec la condition fileInput.file.length === 0
         if (fileInput.files.length === 0 || titleInput.value === '' || categorySelect.value === '') {
             validerButton.disabled = true;
         } else {
@@ -188,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function resetUploadForm() {
 
+        //nous voulons juste que quelques éléments cachés lorsqu'une image est ajoutée réaparaissent
         let addPictureButton = document.querySelector('.image-upload-label');
         let formatInfo = document.querySelector('.format-info');
         let iconImage = document.querySelector('.icon-image');
@@ -196,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formatInfo.style.display = "flex";
         iconImage.style.display = "flex";
 
+        //et on enlève aussi l'image qui a été uploadée précédemment
         const uploadContainer = document.getElementById('imageUploadContainer');
         const newImage = document.querySelector(".new-image")
         uploadContainer.removeChild(newImage)
@@ -236,6 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 closeModal();
                 loadWorks();
                 fetchAndDisplayWorks('Tous');
+                // on vide la valeur de file input pour éviter que la photo précédente reste stockée dans fileinput
                 fileInput.value = "";
             })
             .catch(error => {

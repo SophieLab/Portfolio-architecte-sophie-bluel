@@ -17,81 +17,75 @@
 
 <body>
 
-<!-- Overlay et Modale Galerie Photo -->
-<div id="overlay" style="display: none;">
-    <div id="modaleGalerie" class="modale" style="display: none;">
-        <div class="modale-content">
-            <div id="close-modale">
-                <i class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
+    <!-- Overlay et Modale Galerie Photo -->
+    <div id="overlay" style="display: none;">
+        <div id="modaleGalerie" class="modale" style="display: none;">
+            <div class="modale-content">
+                <div id="close-modale-galerie">
+                    <i class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
+                </div>
+                <div class="modale-header">
+                    <p class="modale-titre">Galerie photo</p>
+                </div>
+                <div id="galerie-modale">
+                    <!-- Contenu à charger ici -->
+                </div>
+                <span class="spacer"> </span>
+                <button id="AjoutPhoto">Ajouter une photo</button>
             </div>
-            <div class="modale-header">
-                <p class="modale-titre">Galerie photo</p>
-                
-            </div>
-            <div id="galerie-modale">
-                <!-- Contenu à charger ici -->
-            </div>
-            <span class="spacer"> </span>
-            <button id="AjoutPhoto">Ajouter une photo</button>
         </div>
     </div>
-</div>
 
     <!-- Modale d'ajout de photo -->
-<div id="modaleAjoutPhoto" class="modale">
-    <div class="modale-content">
+    <div id="modaleAjoutPhoto" class="modale">
+        <div class="modale-content">
 
-        <!-- Flèche de retour et icône de fermeture -->
-        <div id="retour-close-modale">
-            <i id="retourGalerie" class="fa-solid fa-arrow-left retour-fleche"></i>
-            <i id="close-modale" class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
+            <!-- Flèche de retour et icône de fermeture -->
+            <div id="retour-close-modale">
+                <i id="retourGalerie" class="fa-solid fa-arrow-left retour-fleche"></i>
+                <i id="close-modale-ajout" class="close fa-solid fa-xmark" data-modale="modaleGalerie"></i>
+            </div>
+            <div class="modale-header">
+                <p class="modale-titre">Ajout photo</p>
+            </div>
+            <!-- Upload d'image -->
+            <div id="imageUploadContainer" class="image-upload-container">
+                <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
+                <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
+                <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;">
+                <div id="previewImage" class="hide"></div>
+                <span class="format-info">jpg, png : 4mo max</span>
+            </div>
+
+            <!-- Titre de la photo -->
+            <div class="form-group">
+                <span class="input-title">Titre de la photo</span>
+                <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
+            </div>
+            <!-- Catégorie de la photo -->
+            <div class="form-group">
+                <span class="SelectInput-title">Catégorie</span>
+                <select id="photoCategory" class="photo-category">
+                    <!-- Options de catégorie ici -->
+                </select>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <!-- message en cas d'erreur -->
+            <div id="modal-error"></div>
+            <span class="spacer"> </span>
+
+            <!-- Bouton d'ajout de la photo -->
+            <button id="Valider" type="button">Valider</button>
         </div>
-
-        <div class="modale-header">
-            <p class="modale-titre">Ajout photo</p>
-        </div>
-        <!-- Upload d'image -->
-        <div id="imageUploadContainer" class="image-upload-container">
-            <img src="assets/icons/picture.svg" alt="Icône image" class="icon-image">
-            <label for="fileInput" class="image-upload-label"> + Ajouter photo </label>
-            <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none;">
-            <div id="previewImage" class="hide"></div>
-            <span class="format-info">jpg, png : 4mo max</span>
-        </div>
-
-        <!-- Titre de la photo -->
-        <div class="form-group">
-            <span class="input-title">Titre de la photo</span>
-            <input type="text" id="photoTitle" class="photo-title" placeholder="Ajoutez le titre de la photo">
-        </div>
-        <!-- Catégorie de la photo -->
-        <div class="form-group">
-            <span class="SelectInput-title">Catégorie</span>
-            <select id="photoCategory" class="photo-category">
-              <!-- Options de catégorie ici -->
-            </select>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-
-        <!-- message en cas d'erreur -->
-        <div id="modal-error"></div>
-        <span class="spacer"> </span>
-
-        <!-- Bouton d'ajout de la photo -->
-        <button id="Valider" type="button">Valider</button>
     </div>
-</div>
-
-
-    
-
     <!-- Bar edition -->
     <div id="bar" class="bar-edition">
         <p>
-            <i class="fa-solid fa-pen-to-square" alt="Icone édition"></i>
+            <span class="fa-solid fa-pen-to-square" title="Icône édition"></span>
             Mode édition
         </p>
-        </div>
+    </div>
 
     <header id="mainHeader">
         <h1>Sophie Bluel <span>Architecte d'intérieur</span><a href="./index.html"></a></h1>
@@ -103,12 +97,12 @@
                 <li><a class="logout-link" style="display:none;" href="#">Logout</a></li>
                 <li><img src="./assets/icons/instagram.svg" alt="Instagram" class="instagram-icon"></li>
 
-        </ul>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section id="introduction">
+        <div id="introduction">
             <figure>
                 <img src="./assets/images/sophie-bluel.png" alt="Sophie Bluel, architecte d'intérieur">
             </figure>
@@ -122,7 +116,7 @@
                 <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
                     décorateur(trice)</p>
             </article>
-        </section>
+        </div>
         <section id="portfolio">
             <div class="portfolio-header">
                 <h2>Mes Projets</h2>

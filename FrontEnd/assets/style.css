@@ -109,7 +109,7 @@ section {
 
 body {
 	line-height: 1;
-	background-color: rgba(255, 254, 248, 255);
+	background-color: rgba(255, 254, 248, 1);
 }
 
 ol,
@@ -263,19 +263,20 @@ nav li {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 40px;
 }
 
 .gallery img {
 	width: 100%;
-	height: 92.5%;
-
+	height: 100%;
+	object-fit: cover;
 }
 
-/* FORM */
+/* Formulaire */
 #contact {
 	width: 50%;
 	margin: auto;
+	margin-top: 150px;
 }
 
 #contact>* {
@@ -318,9 +319,21 @@ input[type="text"],
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	margin-bottom: 1em;
+	margin-bottom: 2em;
 	box-sizing: border-box;
 	height: 51px;
+}
+
+#photoCategory {
+	color: gray;
+
+}
+
+input[type="submit"] {
+	display: block;
+	margin: 35px;
+	width: 179px;
+	padding: 10px 50px;
 }
 
 #contact textarea {
@@ -330,7 +343,7 @@ input[type="text"],
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	margin-bottom: 1em;
+	margin-bottom: 2em;
 	box-sizing: border-box;
 	height: 174px;
 }
@@ -338,17 +351,6 @@ input[type="text"],
 #password {
 	padding-left: 0.5em;
 }
-
-#retour-close-modale {
-	display: flex;
-	justify-content: space-between;
-}
-
-.retour-fleche {
-	margin-right: 5px;
-}
-
-
 
 .filter-btn {
 	display: block;
@@ -362,16 +364,12 @@ input[type="text"],
 	border-radius: 60px;
 }
 
-input[type="submit"] {
-	display: block;
-	margin: 40px;
-	padding: 10px 50px;
-}
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+	margin-top: 200px;
 }
 
 
@@ -413,7 +411,7 @@ input:hover {
 
 
 
-/* Connection button styles */
+/* Connection styles */
 #connection {
 	width: 179px !important;
 	height: 50px;
@@ -489,7 +487,6 @@ input[type="submit"]:hover,
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-/* Styles de base pour les liens */
 a {
 	text-decoration: none;
 	color: #000;
@@ -500,7 +497,7 @@ a {
 	text-align: center;
 }
 
-/* Styles lorsque l'utilisateur survole le lien */
+/* Styles survole du lien */
 a:hover {
 	color: #B1663C;
 	text-decoration: none;
@@ -517,7 +514,7 @@ a.active {
 
 
 #error {
-	font-size: 0, 8rem;
+	font-size: 0.8rem;
 	padding-top: 2px;
 	color: #f00;
 }
@@ -527,7 +524,7 @@ a.active {
 	background-color: #1D6154;
 }
 
-/* LOGIN */
+/* Login */
 .login {
 	display: flex;
 	flex-direction: column;
@@ -540,8 +537,6 @@ a.active {
 	text-decoration: underline;
 	margin-bottom: 100px;
 }
-
-
 
 /* Barre édition */
 .fa-pen-to-square {
@@ -580,8 +575,8 @@ a.active {
 	height: 15.58px;
 }
 
+/* Bouton de modification */
 
-/*Bouton de modification */
 .button-modification {
 	color: black;
 	text-decoration: none;
@@ -616,7 +611,7 @@ a.active {
 	z-index: 2;
 }
 
-/* Stylisation des modales */
+/* 	Modales */
 .modale {
 	display: none;
 	position: fixed;
@@ -630,42 +625,43 @@ a.active {
 	z-index: 10;
 }
 
-#retour-close-modale {
-	position: relative;
-	display: flex;
-	justify-content: space-between;
-
-}
-
-#close-modale {
-	position: absolute;
-	right: 0;
-	padding-right: 30px;
-}
-
-.retour-fleche {
-	margin-right: 5px;
-}
-
 .modale-content {
-	padding: 60px 105px;
+	padding: 0px 105px 45px 105px;
 	overflow-y: auto;
-
 }
 
-.modale-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0 10px;
-	position: relative;
+#close-modale-galerie {
+	position: absolute;
+	top: 30px;
+	right: 25px;
 }
 
 .modale-titre {
 	flex: 1;
 	text-align: center;
 	margin: 0;
-	padding: 60px 50px 46px 50px;
+	margin-bottom: 46px;
+	margin-top: 60px;
+}
+
+
+#retour-close-modale {
+	position: absolute;
+	top: 26px;
+	left: 30px;
+	right: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#retourGalerie,
+#close-modale-galerie {
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.retour-fleche {
+	margin-right: 5px;
 }
 
 .close,
@@ -673,11 +669,11 @@ a.active {
 	cursor: pointer;
 	font-size: 24px;
 }
-
-#AjoutPhoto,
+#Aj
+outPhoto,
 #Valider {
 	display: block;
-	margin: 20px auto;
+	margin: auto;
 	padding: 10px 50px;
 	font-family: 'Syne', sans-serif;
 	font-weight: 700;
@@ -689,8 +685,11 @@ a.active {
 	cursor: pointer;
 }
 
-#valider:disabled {
+#Valider:disabled {
 	background-color: gray;
+	color: white;
+	border: none;
+	width: 237px;
 }
 
 .modale .modale-content p {
@@ -700,10 +699,7 @@ a.active {
 	font-size: 26px;
 	font-weight: 400;
 }
-
-
-
-/* Upload d'image */
+/* Modale Ajout Photo */
 .image-upload-container {
 	width: 100px;
 	height: 100px;
@@ -764,7 +760,6 @@ a.active {
 	padding-right: 28px;
 }
 
-
 .hide {
 	display: none;
 }
@@ -788,7 +783,13 @@ a.active {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 20px 0;
+	margin-bottom: 30px;
+}
+
+.image-upload-container img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
 }
 
 .icon-image {
@@ -814,6 +815,8 @@ a.active {
 	display: inline-block;
 	width: 100%;
 	border-bottom: solid 1px #b3b3b3;
+	margin-top: 44px;
+	margin-bottom: 35px;
 	;
 }
 
@@ -860,10 +863,4 @@ a.active {
 	width: 129px;
 	height: 193px;
 	object-fit: cover;
-}
-
-.image-upload-container img {
-	max-width: 100%;
-	max-height: 100%;
-	object-fit: contain;
 }
