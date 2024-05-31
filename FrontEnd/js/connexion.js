@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Gestion du clic sur le lien de déconnexion
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
-            e.preventDefault();
+            e.preventDefault(); // Empêche le comportement par défaut du lien
             // Suppression des données de session
             sessionStorage.removeItem("isConnected");
             sessionStorage.removeItem("Token");

@@ -6,17 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
     checkFormValidity();
     initApp();
 
+    // Fonction d'initialisation de l'application
     function initApp() {
         loadWorks();
         loadCategories();
         attachEventListeners();
     }
 
+    // Fonction pour obtenir le token d'autorisation
     function getAuthorization() {
         console.log("Getting authorization token...");
         return 'Bearer ' + sessionStorage.getItem('Token');
     }
 
+    // Chargement des catégories depuis l'API
     function loadCategories() {
         console.log("Loading categories...");
         fetch('http://localhost:5678/api/categories')
@@ -36,8 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Error loading categories:', err));
     }
     
-
-
+    // Chargement des travaux depuis l'API
     function loadWorks() {
         console.log("Loading works from API...");
         fetch('http://localhost:5678/api/works')
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.error('Error loading works:', err));
     }
 
+    // Affichage des travaux dans la galerie
     function displayWorks(works) {
         console.log("Displaying works:", works);
         const galleryContainer = document.getElementById('galerie-modale');
@@ -73,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Suppression d'un travail
     function deleteWork(event, id) {
         console.log(`Deleting work with ID: ${id}`);
         fetch('http://localhost:5678/api/works/' + id, {
@@ -95,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // Attachement des écouteurs d'événements
     function attachEventListeners() {
 
         // on s'assure que le formulaire d'envoi de la photo est bon pour changer l'état du bouton disabled
@@ -137,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // Sélection d'une image et prévisualisation
     function handleFileSelect() {
         const file = document.getElementById('fileInput').files[0]
         const reader = new FileReader();
@@ -148,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const uploadContainer = document.getElementById('imageUploadContainer');
 
-        
             //nous voulons juste que quelques éléments se cachent ;) notamment le bouton d'ajout de photo ainsi que les infos et l'illustration
             let addPictureButton = document.querySelector('.image-upload-label');
             let formatInfo = document.querySelector('.format-info');
@@ -165,12 +170,12 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.readAsDataURL(file);
     }
 
+    // Vérification de la validité du formulaire
     function checkFormValidity() {
         const fileInput = document.getElementById('fileInput');
         const titleInput = document.getElementById('photoTitle');
         const categorySelect = document.getElementById('photoCategory');
         const validerButton = document.getElementById('Valider');
-
 
         //!\ à la base tu avais mis !fileInput.files[0], on préfèrera plutot vérifier que le tableau contient tout simplement quelque chose avec la condition fileInput.file.length === 0
         if (fileInput.files.length === 0 || titleInput.value === '' || categorySelect.value === '') {
@@ -180,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Ouverture de la modale
     function openModal(modalId) {
         closeModal();
         const modal = document.getElementById(modalId);
@@ -188,71 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.style.display = 'block';
     }
 
+    // Fermeture de la modale
     function closeModal() {
-        document.querySelectorAll('.modale').forEach(modal => {
-            modal.style.display = 'none';
-        });
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    function resetUploadForm() {
-
-        //nous voulons juste que quelques éléments cachés lorsqu'une image est ajoutée réaparaissent
-        let addPictureButton = document.querySelector('.image-upload-label');
-        let formatInfo = document.querySelector('.format-info');
-        let iconImage = document.querySelector('.icon-image');
-
-        addPictureButton.style.display = "flex";
-        formatInfo.style.display = "flex";
-        iconImage.style.display = "flex";
-
-        //et on enlève aussi l'image qui a été uploadée précédemment
-        const uploadContainer = document.getElementById('imageUploadContainer');
-        const newImage = document.querySelector(".new-image")
-        uploadContainer.removeChild(newImage)
-
-        const imageTitle = document.getElementById('photoTitle');
-        imageTitle.value = '';
-
-        const photoCategory = document.getElementById('photoCategory');
-        photoCategory.selectedIndex = 0; // Réinitialiser à l'option par défaut
-    }
-
-
-    function uploadNewWork() {
-        const fileInput = document.getElementById('fileInput');
-        const formData = new FormData();
-        formData.append('image', fileInput.files[0]);
-        formData.append('title', document.getElementById('photoTitle').value);
-        formData.append('category', document.getElementById('photoCategory').value);
-
-
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                'Authorization': getAuthorization(),
-            },
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errData => {
-                        throw new Error(errData.error || 'Failed to upload new work');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Work uploaded successfully:", data);
-                closeModal();
-                loadWorks();
-                fetchAndDisplayWorks('Tous');
-                // on vide la valeur de file input pour éviter que la photo précédente reste stockée dans fileinput
-                fileInput.value = "";
-            })
-            .catch(error => {
-                document.getElementById("modal-error").innerText = "Champs incorrects";
-                console.error('Error uploading new work:', error);
-            });
-    }
-});
+        document.querySelectorAll('.mod

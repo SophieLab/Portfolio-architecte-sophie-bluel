@@ -4,11 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const errorDiv = document.getElementById('error');
 
+    // Événement de soumission du formulaire
     loginForm.addEventListener('submit', function(event) {
+        // Prévention de l'action par défaut
         event.preventDefault();
         errorDiv.textContent = '';
         errorDiv.style.display = 'none';
 
+        // Requête API de connexion
         fetch("http://localhost:5678/api/users/login", {
             method: "POST",
             headers: {
@@ -20,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
         .then(response => {
+            // Vérification de la réponse de l'API
             if (!response.ok) {
                 return response.json().then(errData => {
                     throw new Error(errData.error || 'Login failed');
@@ -28,14 +32,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
+            // Gestion des données de la réponse
             if (data.error) {
                 throw new Error(data.error); 
             }
+            // Stockage du token
             sessionStorage.setItem("Token", data.token);
             sessionStorage.setItem("isConnected", JSON.stringify(true));
+            // Redirection de l'utilisateur
             window.location.href = "index.html"; 
         })
         .catch(error => {
+            // Affichage du message d'erreur
             errorDiv.textContent = "Identifiants incorrects";
             errorDiv.style.display = "block";
         });

@@ -1,28 +1,32 @@
+// Fonction pour récupérer et afficher les travaux en fonction de la catégorie
 export function fetchAndDisplayWorks(category) {
     const url = 'http://localhost:5678/api/works';
-    console.log("Début de la récupération des travaux, catégorie :", category); // Ajout pour suivre la catégorie demandée
+
+    // Appel à l'API pour récupérer les travaux
     fetch(url)
         .then(response => {
+            // Vérification de la réponse de l'API
             if (!response.ok) {
                 throw new Error('Échec de la récupération des travaux : ' + response.statusText);
             }
-            console.log("Réponse obtenue de l'API");
+
             return response.json();
         })
         .then(works => {
-            console.log("Travaux récupérés :", works); // Affiche tous les travaux récupérés
+            // Filtrage des travaux en fonction de la catégorie demandée
             const filteredWorks = category !== "Tous" ? works.filter(work => work.category.name === category) : works;
-            console.log("Travaux filtrés selon la catégorie :", filteredWorks); // Affiche les travaux après filtrage
-            displayWorks(filteredWorks);
+            displayWorks(filteredWorks); // Appel de la fonction pour afficher les travaux
         })
-        .catch(error => console.error('Erreur lors de la récupération des travaux :', error));
+        .catch(error => console.error('Erreur lors de la récupération des travaux :', error)); // Gestion des erreurs
 }
 
+// Fonction pour afficher les travaux dans la galerie
 export function displayWorks(works) {
     const imagesContainer = document.querySelector('.gallery');
-    console.log("Nettoyage de la galerie existante"); // Confirmer le nettoyage de la galerie
-    imagesContainer.innerHTML = '';
-    console.log("Affichage des travaux", works); // Log les travaux à afficher
+    imagesContainer.innerHTML = ''; // Nettoyage de la galerie
+
+    console.log("Affichage des travaux", works); 
+    // Boucle à travers les travaux pour les afficher un par un
     works.forEach(work => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
@@ -36,5 +40,4 @@ export function displayWorks(works) {
         figure.appendChild(figcaption);
         imagesContainer.appendChild(figure);
     });
-    console.log("Travaux affichés avec succès"); // Confirmation que les travaux sont affichés
 }
