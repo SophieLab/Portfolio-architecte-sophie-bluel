@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             // Stockage du token
             sessionStorage.setItem("Token", data.token);
-            sessionStorage.setItem("isConnected", JSON.stringify(true));
             // Redirection de l'utilisateur
             window.location.href = "index.html"; 
         })
