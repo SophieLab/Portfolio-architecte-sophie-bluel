@@ -1,6 +1,5 @@
 import { fetchAndDisplayWorks } from "./display-works.mjs";
 
-// Événement se déclenchant lorsque le DOM est entièrement chargé
 document.addEventListener('DOMContentLoaded', () => {
 
     // Initialisation des filtres et chargement des travaux de la catégorie 'Tous'
@@ -24,21 +23,21 @@ function initializeFilters() {
             return response.json();
         })
         .then(categories => {
-
             // Ajout de la catégorie "Tous" au début du tableau des catégories
             categories.unshift({ name: "Tous" });
 
-            // Boucle à travers chaque catégorie
+            // Création des boutons des filtres
+
             categories.forEach(category => {
                 // Création d'un bouton pour chaque catégorie
                 const button = document.createElement('button');
                 button.textContent = category.name;
                 button.className = 'filtersNone';
-                button.dataset.filter = category.name;
+                button.dataset.filter = category.name; // Un attribut data-filter est ajouté pour stocker le nom de la catégorie
+
 
                 // Écouteur d'événement pour chaque bouton de filtre
                 button.addEventListener('click', () => {
-
                     // Retire la classe 'filterActive' de tous les boutons de filtre
                     document.querySelectorAll('.filtersNone').forEach(btn => {
                         btn.classList.remove('filterActive');
@@ -47,7 +46,7 @@ function initializeFilters() {
                     // Ajoute la classe 'filterActive' au bouton cliqué
                     button.classList.add('filterActive');
 
-                    // Appel de la fonction fetchAndDisplayWorks avec la catégorie sélectionnée
+                    // Appel de la fonction fetchAndDisplayWorks avec la catégorie sélectionnée pour afficher les travaux filtrés
                     fetchAndDisplayWorks(category.name);
                 });
 
@@ -55,7 +54,7 @@ function initializeFilters() {
                 filtersContainer.appendChild(button);
             });
 
-            // Active par défaut le bouton "Tous"
+            // Activation du bouton “Tous” par défaut
             filtersContainer.querySelector('button[data-filter="Tous"]').classList.add('filterActive');
         })
         .catch(error => console.error('Erreur lors de la récupération des catégories :', error));

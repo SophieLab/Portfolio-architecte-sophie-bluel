@@ -11,28 +11,29 @@ document.addEventListener("DOMContentLoaded", function () {
     // Mise à jour de l'interface en fonction de l'état de connexion
     if (token) {
         loginLink.parentNode.style.display = "none"; 
-        logoutLink.style.display = "block"; // Affiche le lien de déconnexion
-        barEdition.style.display = "block"; // Affiche la barre d'édition
-        buttonModification.style.display = "block"; // Affiche le bouton modifier
+        logoutLink.style.display = "block"; 
+        barEdition.style.display = "block"; 
+        buttonModification.style.display = "block"; 
         header.classList.add("header-with-bar"); // Ajoute un padding-top au header
     } else {
         loginLink.style.display = "block"; // Affiche le lien de connexion
-        logoutLink.style.display = "none"; // Cache le lien de déconnexion
-        barEdition.style.display = "none"; // Cache la barre d'édition
-        buttonModification.style.display = "none"; // Cache le bouton modifier
-        header.classList.remove("header-with-bar");
+        logoutLink.style.display = "none"; 
+        barEdition.style.display = "none"; 
+        buttonModification.style.display = "none";
+        header.classList.remove("header-with-bar"); // Retire le padding-top du header
     }
 
     // Gestion du clic sur le lien de déconnexion
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
-            e.preventDefault(); // Empêche le comportement par défaut du lien
-            // Suppression des données de session
+            e.preventDefault();
+
             sessionStorage.removeItem("Token");
-            // Redirection vers la page d'accueil
             window.location.replace("index.html");
         });
     } else {
         console.error("L'élément .logout-link n'est pas trouvé dans le DOM.");
     }
 });
+
+
