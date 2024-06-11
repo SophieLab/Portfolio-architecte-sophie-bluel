@@ -91,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Work deleted successfully, ID:", id);
                 event.target.closest('figure').remove(); // Retire le travail de l'affichage
                 alert("Votre photo a été supprimée avec succès.");
+                let activeFilter = document.querySelector('.filterActive');
+                let currentCategory = activeFilter.dataset.filter
+                fetchAndDisplayWorks('  currentCategory');
                 fetchAndDisplayWorks('Tous'); // Recharge les travaux
             })
             .catch((error) => {
@@ -255,9 +258,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Work uploaded successfully:", data);
                 closeModal(); // Ferme la modale d'ajout de photo
                 loadWorks(); // Recharge les travaux
-                fetchAndDisplayWorks('Tous'); // Réaffiche tous les travaux
+                let activeFilter = document.querySelector('.filterActive');
+                let currentCategory = activeFilter.dataset.filter
+                fetchAndDisplayWorks('  currentCategory');
                 fileInput.value = ""; // Réinitialise le champ de fichier
             })
+
+
             .catch(error => {
                 document.getElementById("modal-error").innerText = "Champs incorrects";
                 console.error('Error uploading new work:', error);
