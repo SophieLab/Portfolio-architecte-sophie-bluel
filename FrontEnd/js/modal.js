@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 let currentCategory = activeFilter.dataset.filter;
                 console.log("Current category:", currentCategory);
                 fetchAndDisplayWorks(currentCategory);
-                fetchAndDisplayWorks('Tous');
             })
             .catch((error) => {
                 console.error('Error deleting work:', error);
